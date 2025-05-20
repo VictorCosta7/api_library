@@ -46,7 +46,7 @@ public class AuthAuthorUseCase {
        .withExpiresAt(Instant.now().plus(Duration.ofHours(2)))
        .withSubject(author.getId().toString())
        .sign(algorithm);
-
+       
        return token;
     }
 }

@@ -13,7 +13,7 @@ import br.com.victorcosta.libraryapi.modules.author.useCases.AuthAuthorUseCase;
 
 @RestController
 @RequestMapping("/auth")
-public class AuthCompanyController {
+public class AuthAuthorController {
 
     @Autowired
     private AuthAuthorUseCase authAuthorUseCase;
