@@ -18,7 +18,6 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/book")
 public class CreateBookController {
-    
     @Autowired
     private CreateBookUseCase createBookUseCase;
 
@@ -26,15 +25,15 @@ public class CreateBookController {
     public ResponseEntity<Object> create(@Valid @RequestBody CreateBookRequestDto createBookRequestDto, HttpServletRequest request) {
         var authorID = request.getAttribute("author_id");
 
-        var jobEntity = BookEntity.builder()
+        var bookEntity = BookEntity.builder()
         .title(createBookRequestDto.getTitle())
         .isbn(createBookRequestDto.getIsbn())
         .publicationYear(createBookRequestDto.getPublicationYear())
         .authorId(UUID.fromString(authorID.toString()))
         .build();
-     
+
         try {
-            var result = this.createBookUseCase.execute(jobEntity);
+            var result = this.createBookUseCase.execute(bookEntity);
 
             return ResponseEntity.ok().body(result);
         } catch(Exception e) {

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.victorcosta.libraryapi.modules.author.AuthorEntity;
+import br.com.victorcosta.libraryapi.modules.author.dto.CreateAuthorDto;
 import br.com.victorcosta.libraryapi.modules.author.useCases.CreateAuthorUseCase;
 import jakarta.validation.Valid;
 
@@ -19,9 +20,17 @@ public class CreateAuthorController {
     private CreateAuthorUseCase createAuthorUseCase;
     
     @PostMapping 
-    public ResponseEntity<Object> create(@Valid @RequestBody AuthorEntity authorEntity) {
+    public ResponseEntity<Object> create(@Valid @RequestBody CreateAuthorDto createAuthorDto) {
+        var entity = AuthorEntity.builder()
+        .fullName(createAuthorDto.getFullNAme())
+        .email(createAuthorDto.getEmail())
+        .password(createAuthorDto.getPassword())
+        .nationality(createAuthorDto.getNationality())
+        .dateOfBirth(createAuthorDto.getDateOfBirth())
+        .build();
+
         try {
-            var result = this.createAuthorUseCase.execute(authorEntity);
+            var result = this.createAuthorUseCase.execute(entity);
 
             return ResponseEntity.ok().body(result);
         } catch (Exception e) {

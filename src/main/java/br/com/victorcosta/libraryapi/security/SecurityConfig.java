@@ -24,7 +24,8 @@ public class SecurityConfig {
                     .requestMatchers(
             "/author",
                         "/auth/author",
-                        "/book"
+                        "/book",
+                        "/user"
                         ).permitAll()
                     .anyRequest().authenticated();
             })
