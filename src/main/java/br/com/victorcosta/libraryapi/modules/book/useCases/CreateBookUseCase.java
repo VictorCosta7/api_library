@@ -14,7 +14,7 @@ public class CreateBookUseCase {
     private BookRepository bookRepository;
 
     public BookEntity execute(BookEntity bookEntity) {
-        this.bookRepository.findByTitleAndAuthorId(bookEntity.getTitle(), bookEntity.getAuthorId()).ifPresent((book) -> {
+        this.bookRepository.findByTitleAndAuthorId(bookEntity.getTitle(), bookEntity.getUserId()).ifPresent((book) -> {
             throw new BookFoundException();
         });
 

@@ -20,15 +20,15 @@ public class CreateUserController {
     
     @PostMapping
     public ResponseEntity<Object> create(@RequestBody CreateUserDto createUserDto) {
-        var userEntity = UserEntity.builder()
-        .fullNAme(createUserDto.getFullName())
-        .username(createUserDto.getUsername())
-        .password(createUserDto.getPassword())
-        .email(createUserDto.getEmail())
-        .build();
+        var entity = new UserEntity();
+
+        entity.setFullName(createUserDto.getFullName());
+        entity.setUsername(createUserDto.getUsername());
+        entity.setPassword(createUserDto.getPassword());
+        entity.setEmail(createUserDto.getEmail());
 
         try {
-           var result = this.createUserUseCase.execute(userEntity);
+           var result = this.createUserUseCase.execute(entity);
 
            return ResponseEntity.ok().body(result);
         } catch (Exception e) {

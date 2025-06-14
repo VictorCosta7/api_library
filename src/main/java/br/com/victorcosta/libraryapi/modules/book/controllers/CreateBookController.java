@@ -23,17 +23,17 @@ public class CreateBookController {
 
     @PostMapping
     public ResponseEntity<Object> create(@Valid @RequestBody CreateBookRequestDto createBookRequestDto, HttpServletRequest request) {
-        var authorID = request.getAttribute("author_id");
+        var userId = request.getAttribute("user_id");
 
-        var bookEntity = BookEntity.builder()
-        .title(createBookRequestDto.getTitle())
-        .isbn(createBookRequestDto.getIsbn())
-        .publicationYear(createBookRequestDto.getPublicationYear())
-        .authorId(UUID.fromString(authorID.toString()))
-        .build();
+        var entity = new BookEntity();
+        
+        entity.setTitle(createBookRequestDto.getTitle());
+        entity.setIsbn(createBookRequestDto.getIsbn());
+        entity.setPublicationYear(createBookRequestDto.getPublicationYear());
+        entity.setUserId(UUID.fromString(userId.toString()));
 
         try {
-            var result = this.createBookUseCase.execute(bookEntity);
+            var result = this.createBookUseCase.execute(entity);
 
             return ResponseEntity.ok().body(result);
         } catch(Exception e) {

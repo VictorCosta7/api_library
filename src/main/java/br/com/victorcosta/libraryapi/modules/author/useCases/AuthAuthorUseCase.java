@@ -19,15 +19,17 @@ import br.com.victorcosta.libraryapi.modules.author.repositories.AuthorRepositor
 
 @Service
 public class AuthAuthorUseCase {
+    private final AuthorRepository authorRepository;
 
-    @Autowired
-    private AuthorRepository authorRepository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     @Value("${security.token.secret}")
     private String secretKey;
+
+    public AuthAuthorUseCase(AuthorRepository authorRepository, PasswordEncoder passwordEncoder){
+        this.authorRepository = authorRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     public String execute(AtuhAuthorDto atuhAuthorDto) throws AuthenticationException {
         var author = authorRepository.findByEmail(atuhAuthorDto.getEmail()).orElseThrow(() -> {
