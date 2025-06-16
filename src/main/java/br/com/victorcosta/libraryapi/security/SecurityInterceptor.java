@@ -25,29 +25,28 @@ public class SecurityInterceptor extends OncePerRequestFilter {
     @Autowired
     private JWTProvider jwtProvider;
 
-    @SuppressWarnings("null")
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
-            String header = request.getHeader("Authorization");
-            
-            if(header != null) {
-               var subjectToken = this.jwtProvider.validateToken(header);
+        String header = request.getHeader("Authorization");
 
-               if(subjectToken.isEmpty()) {
+        if (header != null) {
+            var subjectToken = this.jwtProvider.validateToken(header);
+
+            if (subjectToken.isEmpty()) {
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 
                 return;
-               }
-
-               request.setAttribute("author_id", subjectToken);
-
-               UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(subjectToken, null, Collections.emptyList());
-
-               SecurityContextHolder.getContext().setAuthentication(auth);
             }
 
-            filterChain.doFilter(request, response);
+            request.setAttribute("user_id", subjectToken);
+
+            UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(subjectToken, null, Collections.emptyList());
+
+            SecurityContextHolder.getContext().setAuthentication(auth);
+        }
+
+        filterChain.doFilter(request, response);
     }
 }

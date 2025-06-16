@@ -10,5 +10,4 @@ import br.com.victorcosta.libraryapi.modules.author.AuthorEntity;
 
 public interface AuthorRepository extends JpaRepository<AuthorEntity, UUID> {
     Optional<AuthorEntity> findByFullNameAndDateOfBirth(String fullName, LocalDate DateOfBirth);
-    Optional<AuthorEntity> findByEmail(String email);
 }

@@ -12,14 +12,16 @@ import br.com.victorcosta.libraryapi.modules.user.dto.CreateUserDto;
 import br.com.victorcosta.libraryapi.modules.user.useCases.CreateUserUseCase;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 public class CreateUserController {
+    private final CreateUserUseCase createUserUseCase;
 
-    @Autowired
-    private CreateUserUseCase createUserUseCase;
-    
+    public CreateUserController(CreateUserUseCase createUserUseCase) {
+        this.createUserUseCase = createUserUseCase;
+    }
+
     @PostMapping
-    public ResponseEntity<Object> create(@RequestBody CreateUserDto createUserDto) {
+    public void create(@RequestBody CreateUserDto createUserDto) {
         var entity = new UserEntity();
 
         entity.setFullName(createUserDto.getFullName());
@@ -27,12 +29,6 @@ public class CreateUserController {
         entity.setPassword(createUserDto.getPassword());
         entity.setEmail(createUserDto.getEmail());
 
-        try {
-           var result = this.createUserUseCase.execute(entity);
-
-           return ResponseEntity.ok().body(result);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        var result = this.createUserUseCase.execute(entity);
     }
 }

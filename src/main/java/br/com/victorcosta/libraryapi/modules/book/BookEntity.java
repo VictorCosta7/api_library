@@ -3,22 +3,15 @@ package br.com.victorcosta.libraryapi.modules.book;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import br.com.victorcosta.libraryapi.modules.author.AuthorEntity;
 import br.com.victorcosta.libraryapi.modules.user.UserEntity;
+import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
-import br.com.victorcosta.libraryapi.modules.author.AuthorEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-
 @Entity(name = "books")
-public class BookEntity {  
+public class BookEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
@@ -32,8 +25,37 @@ public class BookEntity {
     @Column(name = "publication_year")
     private String publicationYear;
 
-    @Column(name = "fk_user_id")
+    @Column(name = "author_id")
+    private UUID authorId;
+
+    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name = "author_id", insertable = false, updatable = false)
+    private AuthorEntity author;
+
+    @Column(name = "user_id")
     private UUID userId;
+
+    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name = "user_id", insertable = false, updatable = false)
+    private UserEntity user;
+
+    public UUID getAuthorId() {
+        return authorId;
+    }
+
+    public void setAuthorId(UUID authorId) {
+        this.authorId = authorId;
+    }
+
+    public AuthorEntity getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(AuthorEntity author) {
+        this.author = author;
+    }
 
     public UUID getId() {
         return id;
@@ -41,46 +63,6 @@ public class BookEntity {
 
     public void setId(UUID id) {
         this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getIsbn() {
-        return isbn;
-    }
-
-    public void setIsbn(String isbn) {
-        this.isbn = isbn;
-    }
-
-    public String getPublicationYear() {
-        return publicationYear;
-    }
-
-    public void setPublicationYear(String publicationYear) {
-        this.publicationYear = publicationYear;
-    }
-
-    public UUID getUserId() {
-        return userId;
-    }
-
-    public void setUserId(UUID userId) {
-        this.userId = userId;
-    }
-
-    public UserEntity getUser() {
-        return user;
-    }
-
-    public void setUser(UserEntity user) {
-        this.user = user;
     }
 
     public LocalDateTime getCreatedAt() {
@@ -91,10 +73,45 @@ public class BookEntity {
         this.createdAt = createdAt;
     }
 
-    @JsonBackReference
-    @ManyToOne 
-    @JoinColumn(name = "fk_user_id",insertable = false, updatable = false)
-    private UserEntity user;
+    public UserEntity getUser() {
+        return user;
+    }
+
+    public void setUser(UserEntity user) {
+        this.user = user;
+    }
+
+    public UUID getUserId() {
+        return userId;
+    }
+
+    public void setUserId(UUID userId) {
+        this.userId = userId;
+    }
+
+    public String getPublicationYear() {
+        return publicationYear;
+    }
+
+    public void setPublicationYear(String publicationYear) {
+        this.publicationYear = publicationYear;
+    }
+
+    public String getIsbn() {
+        return isbn;
+    }
+
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
     @CreationTimestamp
     private LocalDateTime createdAt;
@@ -112,15 +129,8 @@ public class BookEntity {
         return java.util.Objects.hash(id);
     }
 
-     @Override
+    @Override
     public String toString() {
-        return "BookEntity{" +
-               "id=" + id +
-               ", title='" + title + '\'' +
-               ", isbn='" + isbn + '\'' +
-               ", publicationYear='" + publicationYear + '\'' +
-               ", authorId=" + userId +
-               ", createdAt=" + createdAt +
-               '}';
+        return "BookEntity{" + "id=" + id + ", title='" + title + '\'' + ", isbn='" + isbn + '\'' + ", publicationYear='" + publicationYear + '\'' + ", createdAt=" + createdAt + '}';
     }
 }

@@ -19,18 +19,19 @@ import jakarta.validation.Valid;
 @RequestMapping("/author")
 public class CreateAuthorController {
 
-    @Autowired
-    private CreateAuthorUseCase createAuthorUseCase;
-    
+    private final CreateAuthorUseCase createAuthorUseCase;
+
+    public CreateAuthorController(CreateAuthorUseCase createAuthorUseCase) {
+        this.createAuthorUseCase = createAuthorUseCase;
+    }
+
     @PostMapping 
     public ResponseEntity<Object> create(@Valid @RequestBody CreateAuthorDto createAuthorDto, HttpServletRequest request) {
         var userId = request.getAttribute("user_id");
         
         var entity = new AuthorEntity();
         entity.setFullName(createAuthorDto.getFullName());
-        entity.setEmail(createAuthorDto.getEmail());
         entity.setNationality(createAuthorDto.getNationality());
-        entity.setPassword(createAuthorDto.getPassword());
         entity.setDateOfBirth(createAuthorDto.getDateOfBirth());
         entity.setUserId(UUID.fromString(userId.toString()));
         

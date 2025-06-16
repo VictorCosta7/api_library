@@ -10,8 +10,6 @@ import lombok.Data;
 @AllArgsConstructor
 public class CreateAuthorDto {
     private String fullName;
-    private String email;
-    private String password;
     private String nationality;
     private LocalDate dateOfBirth;
     private UUID userId;

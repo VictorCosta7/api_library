@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+import br.com.victorcosta.libraryapi.modules.book.BookEntity;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.validator.constraints.Length;
 
@@ -17,7 +18,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Email;
-import io.micrometer.common.lang.Nullable; // Mantenha esta importação para @Nullable se estiver usando-a para validação/informação
+import io.micrometer.common.lang.Nullable;
 
 @Entity(name = "users")
 public class UserEntity {
@@ -39,6 +40,10 @@ public class UserEntity {
     @OneToMany(mappedBy = "user")
     private Set<AuthorEntity> authors = new HashSet<>();
 
+    @JsonManagedReference
+    @OneToMany(mappedBy = "user")
+    private Set<BookEntity> books = new HashSet<>();
+
     @CreationTimestamp
     private LocalDateTime createdAt;
 
@@ -56,6 +61,20 @@ public class UserEntity {
         this.password = password;
         this.createdAt = createdAt;
         this.deletedAt = deletedAt;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserEntity that = (UserEntity) o;
+        return java.util.Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return java.util.Objects.hash(id);
     }
 
     public UUID getId() {
@@ -98,6 +117,22 @@ public class UserEntity {
         this.password = password;
     }
 
+    public Set<AuthorEntity> getAuthors() {
+        return authors;
+    }
+
+    public void setAuthors(Set<AuthorEntity> authors) {
+        this.authors = authors;
+    }
+
+    public Set<BookEntity> getBooks() {
+        return books;
+    }
+
+    public void setBooks(Set<BookEntity> books) {
+        this.books = books;
+    }
+
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
@@ -106,37 +141,17 @@ public class UserEntity {
         this.createdAt = createdAt;
     }
 
+    @Nullable
     public LocalDateTime getDeletedAt() {
         return deletedAt;
     }
 
-    public void setDeletedAt(LocalDateTime deletedAt) {
+    public void setDeletedAt(@Nullable LocalDateTime deletedAt) {
         this.deletedAt = deletedAt;
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        UserEntity that = (UserEntity) o;
-        return java.util.Objects.equals(id, that.id); 
-    }
-
-    @Override
-    public int hashCode() {
-        return java.util.Objects.hash(id);
-    }
-
-    @Override
     public String toString() {
-        return "UserEntity{" +
-               "id=" + id +
-               ", fullName='" + fullName + '\'' +
-               ", username='" + username + '\'' +
-               ", email='" + email + '\'' +
-               ", password='" + "[PROTECTED]" + '\'' + 
-               ", createdAt=" + createdAt +
-               ", deletedAt=" + deletedAt +
-               '}';
+        return "UserEntity{" + "id=" + id + ", fullName='" + fullName + '\'' + ", username='" + username + '\'' + ", email='" + email + '\'' + ", password='" + "[PROTECTED]" + '\'' + ", createdAt=" + createdAt + ", deletedAt=" + deletedAt + '}';
     }
 }

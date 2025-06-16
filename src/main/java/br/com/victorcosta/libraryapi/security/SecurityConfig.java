@@ -18,20 +18,18 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf.disable())
-            .authorizeHttpRequests(auth -> {
-                auth
-                    .requestMatchers(
-            "/author",
-                        "/auth/author",
-                        "/book",
-                        "/user"
-                        ).permitAll()
-                    .anyRequest().authenticated();
-            })
-            .addFilterBefore(securityInterceptor, BasicAuthenticationFilter.class);
+                .csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(auth -> {
+                    auth
+                            .requestMatchers(
+                                    "/users",
+                                    "/users/auth"
+                            ).permitAll()
+                            .anyRequest().authenticated();
+                })
+                .addFilterBefore(securityInterceptor, BasicAuthenticationFilter.class);
 
-            return http.build();
+        return http.build();
     }
 
     @Bean
