@@ -1,6 +1,5 @@
 package br.com.victorcosta.libraryapi.modules.author;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 import org.hibernate.annotations.CreationTimestamp;
