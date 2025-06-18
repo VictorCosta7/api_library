@@ -1,10 +1,32 @@
 package br.com.victorcosta.libraryapi.modules.book.dto;
 
-import lombok.Data;
+import br.com.victorcosta.libraryapi.modules.book.domain.BookCategory;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
-@Data
-public class CreateBookRequestDto {
-    private String title;
-    private String isbn;
-    private String publicationYear;
+import java.util.UUID;
+
+public record CreateBookRequestDto(
+        @NotBlank
+        String title,
+
+        @NotBlank
+        String isbn,
+
+        @NotBlank
+        String publicationYear,
+
+        @NotNull
+        Integer numberOfPages,
+
+        @NotBlank
+        String edition,
+
+        @NotBlank
+        BookCategory bookCategory,
+
+        @NotNull
+        UUID authorId
+) {
+
 }

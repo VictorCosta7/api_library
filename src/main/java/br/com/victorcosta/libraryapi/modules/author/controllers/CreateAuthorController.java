@@ -2,7 +2,6 @@ package br.com.victorcosta.libraryapi.modules.author.controllers;
 
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,11 +29,9 @@ public class CreateAuthorController {
         var userId = request.getAttribute("user_id");
         
         var entity = new AuthorEntity();
-        entity.setFullName(createAuthorDto.getFullName());
-        entity.setNationality(createAuthorDto.getNationality());
-        entity.setDateOfBirth(createAuthorDto.getDateOfBirth());
+        entity.setFullName(createAuthorDto.fullName());
+        entity.setNationality(createAuthorDto.nationality());
         entity.setUserId(UUID.fromString(userId.toString()));
-        
 
         try {
             var result = this.createAuthorUseCase.execute(entity);

@@ -1,16 +1,18 @@
 package br.com.victorcosta.libraryapi.modules.author.dto;
 
-import java.time.LocalDate;
 import java.util.UUID;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
-@Data
-@AllArgsConstructor
-public class CreateAuthorDto {
-    private String fullName;
-    private String nationality;
-    private LocalDate dateOfBirth;
-    private UUID userId;
+public record CreateAuthorDto(
+        @NotBlank(message = "Full name is required")
+        String fullName,
+        
+        @NotBlank(message = "Nationality is required")
+        String nationality,
+
+        @NotNull(message = "User ID is required")
+        UUID userId
+) {
 }

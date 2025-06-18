@@ -1,10 +1,11 @@
-package br.com.victorcosta.libraryapi.modules.book;
+package br.com.victorcosta.libraryapi.modules.book.domain;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 import br.com.victorcosta.libraryapi.modules.author.AuthorEntity;
 import br.com.victorcosta.libraryapi.modules.user.UserEntity;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -25,6 +26,16 @@ public class BookEntity {
     @Column(name = "publication_year")
     private String publicationYear;
 
+    @Column
+    @Nullable
+    private String edition;
+
+    @Column
+    @Enumerated(EnumType.STRING)
+    private BookCategory bookCategory;
+
+    private Integer numberOfPages;
+
     @Column(name = "author_id")
     private UUID authorId;
 
@@ -40,6 +51,35 @@ public class BookEntity {
     @ManyToOne
     @JoinColumn(name = "user_id", insertable = false, updatable = false)
     private UserEntity user;
+
+    @Nullable
+    public String getEdition() {
+        return edition;
+    }
+
+    @CreationTimestamp
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
+    public void setEdition(@Nullable String edition) {
+        this.edition = edition;
+    }
+
+    public BookCategory getBookCategory() {
+        return bookCategory;
+    }
+
+    public void setBookCategory(BookCategory bookCategory) {
+        this.bookCategory = bookCategory;
+    }
+
+    public Integer getNumberOfPages() {
+        return numberOfPages;
+    }
+
+    public void setNumberOfPages(Integer numberOfPages) {
+        this.numberOfPages = numberOfPages;
+    }
 
     public UUID getAuthorId() {
         return authorId;
@@ -112,9 +152,6 @@ public class BookEntity {
     public void setTitle(String title) {
         this.title = title;
     }
-
-    @CreationTimestamp
-    private LocalDateTime createdAt;
 
     @Override
     public boolean equals(Object o) {

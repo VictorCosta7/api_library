@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-import br.com.victorcosta.libraryapi.modules.book.BookEntity;
+import br.com.victorcosta.libraryapi.modules.book.domain.BookEntity;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.validator.constraints.Length;
 

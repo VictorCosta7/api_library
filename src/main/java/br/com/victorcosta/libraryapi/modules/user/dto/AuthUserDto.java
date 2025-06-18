@@ -1,9 +1,12 @@
 package br.com.victorcosta.libraryapi.modules.user.dto;
 
-import lombok.Data;
+import jakarta.validation.constraints.NotBlank;
 
-@Data
-public class AuthUserDto {
-    private String password;
-    private String email;
+public record AuthUserDto(
+        @NotBlank
+        String password,
+
+        @NotBlank
+        String email
+) {
 }

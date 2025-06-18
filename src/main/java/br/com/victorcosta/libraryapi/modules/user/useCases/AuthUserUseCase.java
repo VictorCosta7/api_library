@@ -30,11 +30,11 @@ public class AuthUserUseCase {
     }
 
     public String execute(AuthUserDto authUserDto) throws AuthenticationException {
-        var user = userRepository.findByEmail(authUserDto.getEmail()).orElseThrow(() -> {
+        var user = userRepository.findByEmail(authUserDto.email()).orElseThrow(() -> {
             throw new UserNotFoundException();
         });
 
-        var passwordMatches = this.passwordEncoder.matches(authUserDto.getPassword(), user.getPassword());
+        var passwordMatches = this.passwordEncoder.matches(authUserDto.password(), user.getPassword());
 
         if(!passwordMatches) {
             throw new AuthenticationException();

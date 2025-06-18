@@ -1,11 +1,18 @@
 package br.com.victorcosta.libraryapi.modules.user.dto;
 
-import lombok.Data;
+import jakarta.validation.constraints.NotBlank;
 
-@Data
-public class CreateUserDto {
-    private String fullName;
-    private String username;
-    private String password;
-    private String email;
+public record CreateUserDto(
+        @NotBlank
+        String fullName,
+
+        @NotBlank
+        String username,
+
+        @NotBlank
+        String password,
+
+        @NotBlank
+        String email
+) {
 }

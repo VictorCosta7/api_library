@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 import org.hibernate.annotations.CreationTimestamp;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import br.com.victorcosta.libraryapi.modules.user.UserEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -15,8 +14,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Past;
+
 
 @Entity(name = "authors")
 public class AuthorEntity {
@@ -37,22 +35,16 @@ public class AuthorEntity {
     @JoinColumn(name = "user_id", insertable = false, updatable = false)
     private UserEntity user;
 
-    @NotNull
-    @Past
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
-    private LocalDate dateOfBirth;
-
     @CreationTimestamp
     private LocalDateTime createdAt;
 
     public AuthorEntity() {
     }
 
-    public AuthorEntity(UUID id, String fullName, String email, String password, String nationality, LocalDate dateOfBirth, LocalDateTime createdAt, UserEntity user, UUID userId) {
+    public AuthorEntity(UUID id, String fullName, String email, String password, String nationality, LocalDateTime createdAt, UserEntity user, UUID userId) {
         this.id = id;
         this.fullName = fullName;
         this.nationality = nationality;
-        this.dateOfBirth = dateOfBirth;
         this.createdAt = createdAt;
         this.userId = userId;
         this.user = user;
@@ -80,14 +72,6 @@ public class AuthorEntity {
 
     public void setNationality(String nationality) {
         this.nationality = nationality;
-    }
-
-    public LocalDate getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public void setDateOfBirth(LocalDate dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
     }
 
     public LocalDateTime getCreatedAt() {
@@ -129,6 +113,6 @@ public class AuthorEntity {
 
     @Override
     public String toString() {
-        return "AuthorEntity{" + "id=" + id + ", fullName='" + fullName + '\'' + ", nationality='" + nationality + '\'' + ", dateOfBirth=" + dateOfBirth + ", createdAt=" + createdAt + '}';
+        return "AuthorEntity{" + "id=" + id + ", fullName='" + fullName + '\'' + ", nationality='" + nationality + '\'' + ", createdAt=" + createdAt + '}';
     }
 }
