@@ -2,6 +2,7 @@ package br.com.victorcosta.libraryapi.modules.user.controllers;
 
 import br.com.victorcosta.libraryapi.modules.user.dto.AuthUserDto;
 import br.com.victorcosta.libraryapi.modules.user.useCases.AuthUserUseCase;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +21,9 @@ public class AuthUserController {
     }
 
     @PostMapping("/auth")
-    public String handler(@RequestBody AuthUserDto authUserDto) throws AuthenticationException {
-       return this.authUserUseCase.execute(authUserDto);
+    public ResponseEntity<Object> handler(@RequestBody AuthUserDto authUserDto) throws AuthenticationException {
+       var result = this.authUserUseCase.execute(authUserDto);
+
+       return  ResponseEntity.ok().body(result);
     }
 }

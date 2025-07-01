@@ -2,6 +2,7 @@ package br.com.victorcosta.libraryapi.modules.user.useCases;
 
 import javax.naming.AuthenticationException;
 
+import br.com.victorcosta.libraryapi.modules.user.dto.AuthUserResponseDTO;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,6 +15,7 @@ import br.com.victorcosta.libraryapi.modules.user.repositories.UserRepository;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Arrays;
 
 @Service
 public class AuthUserUseCase {
@@ -29,7 +31,7 @@ public class AuthUserUseCase {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public String execute(AuthUserDto authUserDto) throws AuthenticationException {
+    public AuthUserResponseDTO execute(AuthUserDto authUserDto) throws AuthenticationException {
         var user = userRepository.findByEmail(authUserDto.email()).orElseThrow(() -> {
             throw new UserNotFoundException();
         });
@@ -41,12 +43,15 @@ public class AuthUserUseCase {
        }
 
         Algorithm algorithm = Algorithm.HMAC256(secretKey);
+        var expiresIn = Instant.now().plus(Duration.ofMinutes(10));
+        var roles = Arrays.asList("USER");
 
-         var token = JWT.create().withIssuer("libraryvc")
+        var token = JWT.create().withIssuer("libraryvc")
                 .withExpiresAt(Instant.now().plus(Duration.ofHours(2)))
                 .withSubject(user.getId().toString())
+                .withClaim("roles", roles)
                 .sign(algorithm);
 
-         return token;
-    }
+         return new AuthUserResponseDTO(token, expiresIn.toEpochMilli(), roles);
+     }
 }

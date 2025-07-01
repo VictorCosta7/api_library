@@ -7,26 +7,12 @@ import jakarta.validation.constraints.NotNull;
 import java.util.UUID;
 
 public record CreateBookRequestDto(
-        @NotBlank
         String title,
-
-        @NotBlank
         String isbn,
-
-        @NotBlank
         String publicationYear,
-
-        @NotNull
         Integer numberOfPages,
-
-        @NotBlank
         String edition,
-
-        @NotBlank
         BookCategory bookCategory,
-
-        @NotNull
         UUID authorId
 ) {
-
 }

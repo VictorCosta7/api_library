@@ -1,4 +1,10 @@
 package br.com.victorcosta.libraryapi.modules.user.dto;
 
-public record AuthUserResponseDTO() {
+import java.util.List;
+
+public record AuthUserResponseDTO(
+         String access_token,
+         Long expires_in,
+         List<String> roles
+) {
 }

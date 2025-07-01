@@ -3,6 +3,7 @@ package br.com.victorcosta.libraryapi.modules.author.controllers;
 import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +17,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/authors")
+@PreAuthorize("hasRole('USER')")
 public class CreateAuthorController {
 
     private final CreateAuthorUseCase createAuthorUseCase;

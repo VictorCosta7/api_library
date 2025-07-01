@@ -1,5 +1,6 @@
 package br.com.victorcosta.libraryapi.providers;
 
+import com.auth0.jwt.interfaces.DecodedJWT;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -13,22 +14,20 @@ public class JWTProvider {
     @Value("${security.token.secret}")
     private String secretKey;
 
-    public String validateToken(String token) {
+    public DecodedJWT validateToken(String token) {
         token = token.replace("Bearer ", "");
 
         Algorithm algorithm = Algorithm.HMAC256(secretKey);
 
         try {
-        var subject = JWT.require(algorithm)
-            .build()
-            .verify(token)
-            .getSubject();
+            var tokenDecoded = JWT.require(algorithm)
+                    .build()
+                    .verify(token);
 
-            return subject;
-        } catch(JWTVerificationException e) {
+            return tokenDecoded;
+        } catch (JWTVerificationException e) {
             e.printStackTrace();
-
-            return "";
+            return null;
         }
     }
 }

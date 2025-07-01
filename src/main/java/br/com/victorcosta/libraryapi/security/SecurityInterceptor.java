@@ -6,6 +6,7 @@ import java.util.Collections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -18,31 +19,38 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @Component
 public class SecurityInterceptor extends OncePerRequestFilter {
+    private final JWTProvider jwtProvider;
 
     @Value("${security.token.secret}")
     private String secretKey;
 
-    @Autowired
-    private JWTProvider jwtProvider;
+    public SecurityInterceptor(JWTProvider jwtProvider) {
+        this.jwtProvider = jwtProvider;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-
         String header = request.getHeader("Authorization");
 
         if (header != null) {
-            var subjectToken = this.jwtProvider.validateToken(header);
+            var token = this.jwtProvider.validateToken(header);
 
-            if (subjectToken.isEmpty()) {
+            if (token == null) {
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 
                 return;
             }
 
-            request.setAttribute("user_id", subjectToken);
+            var roles = token.getClaim("roles").asList(Object.class);
 
-            UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(subjectToken, null, Collections.emptyList());
+            var grants = roles.stream()
+                    .map(
+                            role -> new SimpleGrantedAuthority("ROLE_" + role.toString())
+                    ).toList();
+
+            request.setAttribute("user_id", token.getSubject());
+            UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(token.getSubject(), null, grants);
 
             SecurityContextHolder.getContext().setAuthentication(auth);
         }
