@@ -40,7 +40,7 @@ public class AuthorEntity {
     public AuthorEntity() {
     }
 
-    public AuthorEntity(UUID id, String fullName, String email, String password, String nationality, LocalDateTime createdAt, UserEntity user, UUID userId) {
+    public AuthorEntity(UUID id, String fullName, String nationality, LocalDateTime createdAt, UserEntity user, UUID userId) {
         this.id = id;
         this.fullName = fullName;
         this.nationality = nationality;
