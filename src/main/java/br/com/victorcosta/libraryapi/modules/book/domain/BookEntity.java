@@ -1,15 +1,15 @@
 package br.com.victorcosta.libraryapi.modules.book.domain;
 
-import java.time.LocalDateTime;
-import java.util.UUID;
-
-import br.com.victorcosta.libraryapi.modules.author.AuthorEntity;
 import br.com.victorcosta.libraryapi.modules.user.UserEntity;
-import jakarta.annotation.Nullable;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import org.hibernate.annotations.CreationTimestamp;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.UUID;
 
 @Entity(name = "books")
 public class BookEntity {
@@ -17,32 +17,39 @@ public class BookEntity {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(nullable = false)
-    private String title;
-
-    @Column
+    @NotBlank(message = "ISBN is required")
     private String isbn;
 
-    @Column(name = "publication_year")
-    private String publicationYear;
+    @NotBlank(message = "Title is required")
+    @Size(max = 255, message = "Title must be max 255 characters")
+    private String title;
 
-    @Column
-    @Nullable
-    private String edition;
+    private String subtitle;
 
-    @Column
-    @Enumerated(EnumType.STRING)
-    private BookCategory bookCategory;
+    private List<String> authors;
 
-    private Integer numberOfPages;
+    private String publisher;
 
-    @Column(name = "author_id")
-    private UUID authorId;
+    private String synopsis;
 
-    @JsonBackReference
-    @ManyToOne
-    @JoinColumn(name = "author_id", insertable = false, updatable = false)
-    private AuthorEntity author;
+    private Integer year;
+
+    private String format;
+
+    @Column(name = "page_count")
+    private Integer pageCount;
+
+    private List<String> subjects;
+
+    private String location;
+
+    @Column(name = "retail_price")
+    private Double retailPrice;
+
+    @Column(name = "cover_url")
+    private String coverUrl;
+
+    private String provider;
 
     @Column(name = "user_id")
     private UUID userId;
@@ -52,73 +59,13 @@ public class BookEntity {
     @JoinColumn(name = "user_id", insertable = false, updatable = false)
     private UserEntity user;
 
-    @Nullable
-    public String getEdition() {
-        return edition;
-    }
-
     @CreationTimestamp
-    @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    public void setEdition(@Nullable String edition) {
-        this.edition = edition;
-    }
-
-    public BookCategory getBookCategory() {
-        return bookCategory;
-    }
-
-    public void setBookCategory(BookCategory bookCategory) {
-        this.bookCategory = bookCategory;
-    }
-
-    public Integer getNumberOfPages() {
-        return numberOfPages;
-    }
-
-    public void setNumberOfPages(Integer numberOfPages) {
-        this.numberOfPages = numberOfPages;
-    }
-
-    public UUID getAuthorId() {
-        return authorId;
-    }
-
-    public void setAuthorId(UUID authorId) {
-        this.authorId = authorId;
-    }
-
-    public AuthorEntity getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(AuthorEntity author) {
-        this.author = author;
-    }
+    public BookEntity() {}
 
     public UUID getId() {
         return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public UserEntity getUser() {
-        return user;
-    }
-
-    public void setUser(UserEntity user) {
-        this.user = user;
     }
 
     public UUID getUserId() {
@@ -129,12 +76,8 @@ public class BookEntity {
         this.userId = userId;
     }
 
-    public String getPublicationYear() {
-        return publicationYear;
-    }
-
-    public void setPublicationYear(String publicationYear) {
-        this.publicationYear = publicationYear;
+    public void setId(UUID id) {
+        this.id = id;
     }
 
     public String getIsbn() {
@@ -153,21 +96,160 @@ public class BookEntity {
         this.title = title;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        BookEntity that = (BookEntity) o;
-        return java.util.Objects.equals(id, that.id);
+    public String getSubtitle() {
+        return subtitle;
     }
 
-    @Override
-    public int hashCode() {
-        return java.util.Objects.hash(id);
+    public void setSubtitle(String subtitle) {
+        this.subtitle = subtitle;
+    }
+
+    public List<String> getAuthors() {
+        return authors;
+    }
+
+    public void setAuthors(List<String> authors) {
+        this.authors = authors;
+    }
+
+    public String getPublisher() {
+        return publisher;
+    }
+
+    public void setPublisher(String publisher) {
+        this.publisher = publisher;
+    }
+
+    public String getSynopsis() {
+        return synopsis;
+    }
+
+    public void setSynopsis(String synopsis) {
+        this.synopsis = synopsis;
+    }
+
+    public Integer getYear() {
+        return year;
+    }
+
+    public void setYear(Integer year) {
+        this.year = year;
+    }
+
+    public String getFormat() {
+        return format;
+    }
+
+    public void setFormat(String format) {
+        this.format = format;
+    }
+
+    public Integer getPageCount() {
+        return pageCount;
+    }
+
+    public void setPageCount(Integer pageCount) {
+        this.pageCount = pageCount;
+    }
+
+    public List<String> getSubjects() {
+        return subjects;
+    }
+
+    public void setSubjects(List<String> subjects) {
+        this.subjects = subjects;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public Double getRetailPrice() {
+        return retailPrice;
+    }
+
+    public void setRetailPrice(Double retailPrice) {
+        this.retailPrice = retailPrice;
+    }
+
+    public String getCoverUrl() {
+        return coverUrl;
+    }
+
+    public void setCoverUrl(String coverUrl) {
+        this.coverUrl = coverUrl;
+    }
+
+    public String getProvider() {
+        return provider;
+    }
+
+    public void setProvider(String provider) {
+        this.provider = provider;
+    }
+
+    public UserEntity getUser() {
+        return user;
+    }
+
+    public void setUser(UserEntity user) {
+        this.user = user;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public BookEntity(UUID id, String isbn , String title, String subtitle, List<String> authors, String publisher, String synopsis, Integer year, String format, Integer pageCount, List<String> subjects, String location, Double retailPrice, String coverUrl, String provider, UserEntity user, LocalDateTime createdAt ) {
+        this.id = id;
+        this.title = title;
+        this.isbn = isbn;
+        this.authors = authors;
+        this.subjects = subjects;
+        this.subtitle = subtitle;
+        this.publisher = publisher;
+        this.user = user;
+        this.synopsis = synopsis;
+        this.year = year;
+        this.format = format;
+        this.pageCount = pageCount;
+        this.retailPrice = retailPrice;
+        this.location = location;
+        this.coverUrl = coverUrl;
+        this.provider = provider;
+        this.createdAt = createdAt;
     }
 
     @Override
     public String toString() {
-        return "BookEntity{" + "id=" + id + ", title='" + title + '\'' + ", isbn='" + isbn + '\'' + ", publicationYear='" + publicationYear + '\'' + ", createdAt=" + createdAt + '}';
+        return "BookEntity{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", subtitle='" + subtitle + '\'' +
+                ", isbn='" + isbn + '\'' +
+                ", year='" + year + '\'' +
+                ", publisher='" + publisher + '\'' +
+                ", subjects=" + subjects +
+                ", pageCount=" + pageCount +
+                ", authors=" + authors +
+                ", publisher='" + publisher + '\'' +
+                ", synopsis='" + (synopsis != null && synopsis.length() > 50 ? synopsis.substring(0, 50) + "..." : synopsis) + '\'' + // Sinopse truncada
+                ", format='" + format + '\'' +
+                ", subjects=" + subjects +
+                ", location='" + location + '\'' +
+                ", retailPrice=" + retailPrice +
+                ", coverUrl='" + coverUrl + '\'' +
+                ", provider='" + provider + '\'' +
+                ", userId=" + user.getId() +
+                ", createdAt=" + createdAt +
+                '}';
     }
 }

@@ -2,14 +2,13 @@ package br.com.victorcosta.libraryapi.modules.book.controllers;
 
 import java.util.UUID;
 
+import br.com.victorcosta.libraryapi.modules.book.dto.CreateBookRequestDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.victorcosta.libraryapi.modules.book.domain.BookEntity;
-import br.com.victorcosta.libraryapi.modules.book.dto.CreateBookRequestDto;
 import br.com.victorcosta.libraryapi.modules.book.useCases.CreateBookUseCase;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -24,26 +23,11 @@ public class CreateBookController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> create(@Valid @RequestBody CreateBookRequestDto createBookRequestDto, HttpServletRequest request) {
+    public ResponseEntity<Object> create(@Valid @RequestBody CreateBookRequestDTO createBookRequestDTO, HttpServletRequest request) {
         var userId = request.getAttribute("user_id");
 
-        var entity = new BookEntity();
+        var book = createBookUseCase.execute(createBookRequestDTO.isbn(),UUID.fromString(userId.toString()));
 
-        entity.setTitle(createBookRequestDto.title());
-        entity.setIsbn(createBookRequestDto.isbn());
-        entity.setPublicationYear(createBookRequestDto.publicationYear());
-        entity.setBookCategory(createBookRequestDto.bookCategory());
-        entity.setNumberOfPages(createBookRequestDto.numberOfPages());
-        entity.setEdition(createBookRequestDto.edition());
-        entity.setAuthorId(createBookRequestDto.authorId());
-        entity.setUserId(UUID.fromString(userId.toString()));
-
-        try {
-            var result = this.createBookUseCase.execute(entity);
-
-            return ResponseEntity.ok().body(result);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        return  ResponseEntity.ok().body(book);
     }
 }

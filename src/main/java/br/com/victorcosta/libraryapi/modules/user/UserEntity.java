@@ -6,17 +6,13 @@ import java.util.Set;
 import java.util.UUID;
 
 import br.com.victorcosta.libraryapi.modules.book.domain.BookEntity;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.validator.constraints.Length;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import br.com.victorcosta.libraryapi.modules.author.AuthorEntity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Email;
 import io.micrometer.common.lang.Nullable;
 
@@ -36,13 +32,13 @@ public class UserEntity {
     @Length(min = 10, max = 100, message = "Password must contain between (10) and (100) characters")
     private String password;
 
-    @JsonManagedReference
-    @OneToMany(mappedBy = "user")
-    private Set<AuthorEntity> authors = new HashSet<>();
+    @Column(name = "user_id")
+    private UUID userId;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "user")
-    private Set<BookEntity> books = new HashSet<>();
+    @ManyToOne
+    @JoinColumn(name = "user_id", insertable = false, updatable = false)
+    private UserEntity user;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
@@ -117,20 +113,20 @@ public class UserEntity {
         this.password = password;
     }
 
-    public Set<AuthorEntity> getAuthors() {
-        return authors;
+    public UUID getUserId() {
+        return userId;
     }
 
-    public void setAuthors(Set<AuthorEntity> authors) {
-        this.authors = authors;
+    public void setUserId(UUID userId) {
+        this.userId = userId;
     }
 
-    public Set<BookEntity> getBooks() {
-        return books;
+    public UserEntity getUser() {
+        return user;
     }
 
-    public void setBooks(Set<BookEntity> books) {
-        this.books = books;
+    public void setUser(UserEntity user) {
+        this.user = user;
     }
 
     public LocalDateTime getCreatedAt() {

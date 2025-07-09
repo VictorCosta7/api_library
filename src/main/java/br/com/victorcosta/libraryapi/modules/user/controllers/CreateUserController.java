@@ -1,5 +1,6 @@
 package br.com.victorcosta.libraryapi.modules.user.controllers;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +20,7 @@ public class CreateUserController {
     }
 
     @PostMapping
-    public void create(@RequestBody CreateUserDto createUserDto) {
+    public ResponseEntity<Void> create(@RequestBody CreateUserDto createUserDto) { // Use ResponseEntity<Void>
         var entity = new UserEntity();
 
         entity.setFullName(createUserDto.fullName());
@@ -27,6 +28,8 @@ public class CreateUserController {
         entity.setPassword(createUserDto.password());
         entity.setEmail(createUserDto.email());
 
-        var result = this.createUserUseCase.execute(entity);
+        this.createUserUseCase.execute(entity);
+
+        return ResponseEntity.noContent().build();
     }
 }
