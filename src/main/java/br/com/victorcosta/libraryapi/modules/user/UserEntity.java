@@ -1,12 +1,8 @@
 package br.com.victorcosta.libraryapi.modules.user;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.UUID;
 
-import br.com.victorcosta.libraryapi.modules.book.domain.BookEntity;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.validator.constraints.Length;

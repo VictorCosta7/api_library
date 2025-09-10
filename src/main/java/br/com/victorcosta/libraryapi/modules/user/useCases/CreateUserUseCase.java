@@ -11,11 +11,14 @@ import br.com.victorcosta.libraryapi.modules.user.repositories.UserRepository;
 @Service
 public class CreateUserUseCase {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
+
+    public CreateUserUseCase(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
     
     public UserEntity execute(UserEntity userEntity) {
         this.userRepository.findByEmail(userEntity.getEmail()).ifPresent((user) -> {

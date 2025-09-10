@@ -1,4 +1,4 @@
-package br.com.victorcosta.libraryapi.modules.book.domain;
+package br.com.victorcosta.libraryapi.modules.book;
 
 import br.com.victorcosta.libraryapi.modules.user.UserEntity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -62,7 +62,7 @@ public class BookEntity {
     @CreationTimestamp
     private LocalDateTime createdAt;
 
-    public BookEntity() {}
+    public BookEntity(UUID userId, UserEntity user, String isbn, Integer year, String synopsis, List<String> authors, String title, String subtitle, String format, Integer integer, String location, String publisher, String provider, String s, Double aDouble, List<String> subjects, String formatted) {}
 
     public UUID getId() {
         return id;
@@ -208,23 +208,43 @@ public class BookEntity {
         this.createdAt = createdAt;
     }
 
-    public BookEntity(UUID id, String isbn , String title, String subtitle, List<String> authors, String publisher, String synopsis, Integer year, String format, Integer pageCount, List<String> subjects, String location, Double retailPrice, String coverUrl, String provider, UserEntity user, LocalDateTime createdAt ) {
+    public BookEntity(
+            UUID id,
+            String isbn,
+            String title,
+            String subtitle,
+            List<String> authors,
+            String publisher,
+            String synopsis,
+            Integer year,
+            String format,
+            Integer pageCount,
+            List<String> subjects,
+            String location,
+            Double retailPrice,
+            String coverUrl,
+            String provider,
+            UUID userId,
+            UserEntity user,
+            LocalDateTime createdAt
+    ) {
         this.id = id;
-        this.title = title;
         this.isbn = isbn;
-        this.authors = authors;
-        this.subjects = subjects;
+        this.title = title;
         this.subtitle = subtitle;
+        this.authors = authors;
         this.publisher = publisher;
-        this.user = user;
         this.synopsis = synopsis;
         this.year = year;
         this.format = format;
         this.pageCount = pageCount;
-        this.retailPrice = retailPrice;
+        this.subjects = subjects;
         this.location = location;
+        this.retailPrice = retailPrice;
         this.coverUrl = coverUrl;
         this.provider = provider;
+        this.userId = userId;
+        this.user = user;
         this.createdAt = createdAt;
     }
 

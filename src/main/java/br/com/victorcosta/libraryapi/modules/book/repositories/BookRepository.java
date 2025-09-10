@@ -4,7 +4,7 @@ import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import br.com.victorcosta.libraryapi.modules.book.domain.BookEntity;
+import br.com.victorcosta.libraryapi.modules.book.BookEntity;
 import org.springframework.stereotype.Repository;
 
 @Repository
