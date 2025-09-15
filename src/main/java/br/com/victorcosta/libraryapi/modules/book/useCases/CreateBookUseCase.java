@@ -30,7 +30,6 @@ public class CreateBookUseCase {
         });
 
         var book = new BookEntity(
-                user.getUserId(),
                 user,
                 apiResponse.isbn(),
                 apiResponse.year(),

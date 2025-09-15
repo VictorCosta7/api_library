@@ -22,7 +22,6 @@ public class RestTemplateProvider {
             ResponseEntity<IsbdApiResponse> responseEntity =
                     restTemplate.getForEntity(fullUrl, IsbdApiResponse.class);
             return  responseEntity.getBody();
-
         }   catch (Exception e) {
             System.err.println("Erro inesperado ao buscar ISBN " + isbn + ": " + e.getMessage());
             e.printStackTrace();

@@ -28,18 +28,9 @@ public class UserEntity {
     @Length(min = 10, max = 100, message = "Password must contain between (10) and (100) characters")
     private String password;
 
-    @Column(name = "user_id")
-    private UUID userId;
-
-    @JsonManagedReference
-    @ManyToOne
-    @JoinColumn(name = "user_id", insertable = false, updatable = false)
-    private UserEntity user;
-
     @CreationTimestamp
     private LocalDateTime createdAt;
 
-    @Nullable
     private LocalDateTime deletedAt;
 
     public UserEntity() {
@@ -53,6 +44,13 @@ public class UserEntity {
         this.password = password;
         this.createdAt = createdAt;
         this.deletedAt = deletedAt;
+    }
+
+    public UserEntity(String fullName, String username, String email, String password) {
+        this.fullName = fullName;
+        this.username = username;
+        this.email = email;
+        this.password = password;
     }
 
 
@@ -107,22 +105,6 @@ public class UserEntity {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public UUID getUserId() {
-        return userId;
-    }
-
-    public void setUserId(UUID userId) {
-        this.userId = userId;
-    }
-
-    public UserEntity getUser() {
-        return user;
-    }
-
-    public void setUser(UserEntity user) {
-        this.user = user;
     }
 
     public LocalDateTime getCreatedAt() {

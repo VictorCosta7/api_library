@@ -1,6 +1,6 @@
 package br.com.victorcosta.libraryapi.modules.user.useCases;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import br.com.victorcosta.libraryapi.modules.user.dto.CreateUserDto;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -20,15 +20,20 @@ public class CreateUserUseCase {
         this.passwordEncoder = passwordEncoder;
     }
     
-    public UserEntity execute(UserEntity userEntity) {
-        this.userRepository.findByEmail(userEntity.getEmail()).ifPresent((user) -> {
+    public UserEntity execute(CreateUserDto createUserDto) {
+        this.userRepository.findByEmail(createUserDto.email()).ifPresent((user) -> {
             throw new UserFoundException();
         });;
 
-        var passwordEncode = this.passwordEncoder.encode(userEntity.getPassword());
+        var passwordEncode = this.passwordEncoder.encode(createUserDto.password());
 
-        userEntity.setPassword(passwordEncode);
+        UserEntity user = new UserEntity(
+                createUserDto.fullName(),
+                createUserDto.username(),
+                createUserDto.email(),
+                passwordEncode
+        );
 
-        return this.userRepository.save(userEntity);
+        return this.userRepository.save(user);
     }
 }

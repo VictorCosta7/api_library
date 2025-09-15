@@ -3,8 +3,6 @@ package br.com.victorcosta.libraryapi.modules.book;
 import br.com.victorcosta.libraryapi.modules.user.UserEntity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
@@ -17,19 +15,19 @@ public class BookEntity {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @NotBlank(message = "ISBN is required")
     private String isbn;
 
-    @NotBlank(message = "Title is required")
-    @Size(max = 255, message = "Title must be max 255 characters")
+    @Lob
     private String title;
 
+    @Lob
     private String subtitle;
 
     private List<String> authors;
 
     private String publisher;
 
+    @Lob
     private String synopsis;
 
     private Integer year;
@@ -61,8 +59,6 @@ public class BookEntity {
 
     @CreationTimestamp
     private LocalDateTime createdAt;
-
-    public BookEntity(UUID userId, UserEntity user, String isbn, Integer year, String synopsis, List<String> authors, String title, String subtitle, String format, Integer integer, String location, String publisher, String provider, String s, Double aDouble, List<String> subjects, String formatted) {}
 
     public UUID getId() {
         return id;
@@ -209,6 +205,41 @@ public class BookEntity {
     }
 
     public BookEntity(
+            UserEntity user,
+            String isbn,
+            Integer year,
+            String synopsis,
+            List<String> authors,
+            String title,
+            String subtitle,
+            String format,
+            Integer pageCount,
+            String location,
+            String publisher,
+            String provider,
+            String coverUrl,
+            Double retailPrice,
+            List<String> subjects,
+            String formatted) {
+        this.user = user;
+        this.userId = user.getId();
+        this.isbn = isbn;
+        this.title = title;
+        this.year = year;
+        this.synopsis = synopsis;
+        this.authors = authors;
+        this.subtitle = subtitle;
+        this.format = format;
+        this.pageCount = pageCount;
+        this.location = location;
+        this.publisher = publisher;
+        this.provider = provider;
+        this.coverUrl = coverUrl;
+        this.retailPrice = retailPrice;
+        this.subjects = subjects;
+    }
+
+    public BookEntity(
             UUID id,
             String isbn,
             String title,
@@ -224,7 +255,6 @@ public class BookEntity {
             Double retailPrice,
             String coverUrl,
             String provider,
-            UUID userId,
             UserEntity user,
             LocalDateTime createdAt
     ) {
@@ -243,7 +273,6 @@ public class BookEntity {
         this.retailPrice = retailPrice;
         this.coverUrl = coverUrl;
         this.provider = provider;
-        this.userId = userId;
         this.user = user;
         this.createdAt = createdAt;
     }
@@ -268,7 +297,6 @@ public class BookEntity {
                 ", retailPrice=" + retailPrice +
                 ", coverUrl='" + coverUrl + '\'' +
                 ", provider='" + provider + '\'' +
-                ", userId=" + user.getId() +
                 ", createdAt=" + createdAt +
                 '}';
     }

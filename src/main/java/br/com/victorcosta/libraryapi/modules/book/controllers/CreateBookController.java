@@ -23,7 +23,7 @@ public class CreateBookController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> create(@Valid @RequestBody CreateBookRequestDTO createBookRequestDTO, HttpServletRequest request) {
+    public ResponseEntity<Object> handler(@RequestBody CreateBookRequestDTO createBookRequestDTO, HttpServletRequest request) {
         var userId = request.getAttribute("user_id");
 
         var book = createBookUseCase.execute(createBookRequestDTO.isbn(),UUID.fromString(userId.toString()));
