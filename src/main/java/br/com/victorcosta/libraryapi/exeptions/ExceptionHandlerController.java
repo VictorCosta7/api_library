@@ -28,6 +28,15 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
                 e.getMessage(),e.getClass().getSimpleName()
         );
 
-        return new ResponseEntity<>(dto, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(dto, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(BookFoundException.class)
+    public ResponseEntity<ErrorMessageDTO> handleBookFoundException(BookFoundException e) {
+        ErrorMessageDTO dto = new ErrorMessageDTO(
+                e.getMessage(), e.getClass().getSimpleName()
+        );
+
+        return new ResponseEntity<>(dto, HttpStatus.CONFLICT);
     }
 }

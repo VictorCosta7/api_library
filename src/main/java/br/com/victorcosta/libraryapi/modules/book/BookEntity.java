@@ -219,8 +219,8 @@ public class BookEntity {
             String provider,
             String coverUrl,
             Double retailPrice,
-            List<String> subjects,
-            String formatted) {
+            List<String> subjects
+                ) {
         this.user = user;
         this.userId = user.getId();
         this.isbn = isbn;

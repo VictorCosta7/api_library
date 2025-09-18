@@ -8,5 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import br.com.victorcosta.libraryapi.modules.user.UserEntity;
 
 public interface UserRepository extends JpaRepository<UserEntity, UUID>{
-    Optional<UserEntity>findByEmail(String emaString);
+    Optional<UserEntity>findByEmail(String email);
 }

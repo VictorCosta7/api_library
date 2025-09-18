@@ -1,5 +1,6 @@
 package br.com.victorcosta.libraryapi.modules.book.useCases;
 
+import br.com.victorcosta.libraryapi.exeptions.BookFoundException;
 import br.com.victorcosta.libraryapi.exeptions.UserNotFoundException;
 import br.com.victorcosta.libraryapi.modules.book.BookEntity;
 import br.com.victorcosta.libraryapi.modules.user.repositories.UserRepository;
@@ -25,6 +26,12 @@ public class CreateBookUseCase {
     public BookEntity execute(String isbn, UUID userId) {
         var apiResponse = restTemplateProvider.getBookByISBN(isbn);
 
+        var bookRegistered = bookRepository.findByIsbn(isbn);
+
+        if (bookRegistered.isPresent()) {
+            throw new BookFoundException();
+        };
+
         var user = userRepository.findById(userId).orElseThrow(() -> {
             return new UserNotFoundException();
         });
@@ -44,8 +51,7 @@ public class CreateBookUseCase {
                 apiResponse.provider(),
                 apiResponse.coverUrl(),
                 apiResponse.retailPrice(),
-                apiResponse.subjects(),
-                apiResponse.format()
+                apiResponse.subjects()
         );
 
         return bookRepository.save(book);

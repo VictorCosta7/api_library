@@ -26,7 +26,7 @@ public class RegisterRentalUseCase {
         this.bookRepository = bookRepository;
     }
 
-    public void execute(UUID userId, UUID bookId, LocalDateTime rentalDate) {
+    public RentalEntity execute(UUID userId, UUID bookId, LocalDateTime rentalDate) {
         var user = userRepository.findById(userId)
                 .orElseThrow(() -> {
                     throw new UserNotFoundException();
@@ -44,6 +44,6 @@ public class RegisterRentalUseCase {
             book.getId(), user.getId(), rentalDateNow, dueDate, "RENTED"
         );
 
-        rentalRepository.save(rental);
+       return rentalRepository.save(rental);
     }
 }
