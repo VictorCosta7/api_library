@@ -1,9 +1,7 @@
 package br.com.victorcosta.libraryapi.modules.rental.controllers;
 
-import br.com.victorcosta.libraryapi.modules.rental.dto.RegisterRentalDto;
 import br.com.victorcosta.libraryapi.modules.rental.useCases.RegisterRentalUseCase;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,10 +17,10 @@ public class RegisterRentalController {
     }
 
     @PostMapping("/{bookId}")
-    public ResponseEntity<Object> handler(@PathVariable UUID bookId ,@RequestBody RegisterRentalDto registerRentalDto, HttpServletRequest request) {
+    public ResponseEntity<Object> handler(@PathVariable UUID bookId , HttpServletRequest request) {
         var userId = request.getAttribute("user_id");
 
-        var rental = registerRentalUseCase.execute(UUID.fromString(userId.toString()), bookId, registerRentalDto.rentalDate());
+        var rental = registerRentalUseCase.execute(UUID.fromString(userId.toString()), bookId);
 
         return ResponseEntity.ok().body(rental);
     }

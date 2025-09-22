@@ -3,6 +3,7 @@ package br.com.victorcosta.libraryapi.modules.book;
 import br.com.victorcosta.libraryapi.modules.user.UserEntity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import lombok.Builder;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
@@ -17,10 +18,8 @@ public class BookEntity {
 
     private String isbn;
 
-    @Lob
     private String title;
 
-    @Lob
     private String subtitle;
 
     private List<String> authors;
@@ -205,38 +204,37 @@ public class BookEntity {
     }
 
     public BookEntity(
-            UserEntity user,
             String isbn,
-            Integer year,
-            String synopsis,
-            List<String> authors,
             String title,
             String subtitle,
+            List<String> authors,
+            String publisher,
+            String synopsis,
+            Integer year,
             String format,
             Integer pageCount,
+            List<String> subjects,
             String location,
-            String publisher,
-            String provider,
-            String coverUrl,
             Double retailPrice,
-            List<String> subjects
+            String coverUrl,
+            String provider,
+            UserEntity user
                 ) {
-        this.user = user;
-        this.userId = user.getId();
-        this.isbn = isbn;
-        this.title = title;
-        this.year = year;
-        this.synopsis = synopsis;
-        this.authors = authors;
-        this.subtitle = subtitle;
-        this.format = format;
-        this.pageCount = pageCount;
-        this.location = location;
-        this.publisher = publisher;
-        this.provider = provider;
-        this.coverUrl = coverUrl;
-        this.retailPrice = retailPrice;
-        this.subjects = subjects;
+       this.isbn = isbn;
+       this.title = title;
+       this.subtitle = subtitle;
+       this.authors = authors;
+       this.publisher = publisher;
+       this.synopsis = synopsis;
+       this.year = year;
+       this.format = format;
+       this.pageCount = pageCount;
+       this.subjects = subjects;
+       this.location = location;
+       this.retailPrice = retailPrice;
+       this.coverUrl = coverUrl;
+       this.provider = provider;
+       this.user = user;
     }
 
     public BookEntity(
@@ -276,6 +274,8 @@ public class BookEntity {
         this.user = user;
         this.createdAt = createdAt;
     }
+
+    public BookEntity() {}
 
     @Override
     public String toString() {

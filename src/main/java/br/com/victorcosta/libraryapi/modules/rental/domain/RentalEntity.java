@@ -1,4 +1,4 @@
-package br.com.victorcosta.libraryapi.modules.rental;
+package br.com.victorcosta.libraryapi.modules.rental.domain;
 
 import br.com.victorcosta.libraryapi.modules.book.BookEntity;
 import br.com.victorcosta.libraryapi.modules.user.UserEntity;
@@ -36,8 +36,8 @@ public class RentalEntity {
     @Column(name = "due_date")
     private LocalDateTime dueDate;
 
-    @Column
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private RentalStatus status;
 
     public UUID getId() {
         return id;
@@ -95,15 +95,15 @@ public class RentalEntity {
         this.dueDate = dueDate;
     }
 
-    public String getStatus() {
+    public RentalStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(RentalStatus status) {
         this.status = status;
     }
 
-    public RentalEntity(UUID userId, UUID bookId, LocalDateTime rentalDate, LocalDateTime dueDate, String status) {
+    public RentalEntity(UUID userId, UUID bookId, LocalDateTime rentalDate, LocalDateTime dueDate, RentalStatus status) {
         this.userId = userId;
         this.bookId = bookId;
         this.rentalDate = rentalDate;

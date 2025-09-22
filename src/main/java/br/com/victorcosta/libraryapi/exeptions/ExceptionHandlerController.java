@@ -39,4 +39,13 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
 
         return new ResponseEntity<>(dto, HttpStatus.CONFLICT);
     }
+
+    @ExceptionHandler(InvalidIsbnException.class)
+    public ResponseEntity<ErrorMessageDTO> handleInvalidIsbnException(InvalidIsbnException e) {
+        ErrorMessageDTO dto = new ErrorMessageDTO(
+                e.getMessage(), e.getClass().getSimpleName()
+        );
+
+        return new ResponseEntity<>(dto, HttpStatus.CONFLICT);
+    }
 }
