@@ -31,6 +31,15 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(dto, HttpStatus.CONFLICT);
     }
 
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<ErrorMessageDTO> handleUserFoundException(UserNotFoundException e) {
+        ErrorMessageDTO dto = new ErrorMessageDTO(
+                e.getMessage(),e.getClass().getSimpleName()
+        );
+
+        return new ResponseEntity<>(dto, HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(BookFoundException.class)
     public ResponseEntity<ErrorMessageDTO> handleBookFoundException(BookFoundException e) {
         ErrorMessageDTO dto = new ErrorMessageDTO(

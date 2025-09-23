@@ -1,9 +1,8 @@
-package br.com.victorcosta.libraryapi.modules.book;
+package br.com.victorcosta.libraryapi.modules.book.domain;
 
 import br.com.victorcosta.libraryapi.modules.user.UserEntity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import lombok.Builder;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
@@ -20,8 +19,6 @@ public class BookEntity {
 
     private String title;
 
-    private String subtitle;
-
     private List<String> authors;
 
     private String publisher;
@@ -31,22 +28,13 @@ public class BookEntity {
 
     private Integer year;
 
-    private String format;
-
     @Column(name = "page_count")
     private Integer pageCount;
 
     private List<String> subjects;
 
-    private String location;
-
-    @Column(name = "retail_price")
-    private Double retailPrice;
-
     @Column(name = "cover_url")
     private String coverUrl;
-
-    private String provider;
 
     @Column(name = "user_id")
     private UUID userId;
@@ -58,6 +46,9 @@ public class BookEntity {
 
     @CreationTimestamp
     private LocalDateTime createdAt;
+
+    @Enumerated(EnumType.STRING)
+    private BookStatus status = BookStatus.AVAILABLE;
 
     public UUID getId() {
         return id;
@@ -89,14 +80,6 @@ public class BookEntity {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public String getSubtitle() {
-        return subtitle;
-    }
-
-    public void setSubtitle(String subtitle) {
-        this.subtitle = subtitle;
     }
 
     public List<String> getAuthors() {
@@ -131,14 +114,6 @@ public class BookEntity {
         this.year = year;
     }
 
-    public String getFormat() {
-        return format;
-    }
-
-    public void setFormat(String format) {
-        this.format = format;
-    }
-
     public Integer getPageCount() {
         return pageCount;
     }
@@ -155,36 +130,12 @@ public class BookEntity {
         this.subjects = subjects;
     }
 
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public Double getRetailPrice() {
-        return retailPrice;
-    }
-
-    public void setRetailPrice(Double retailPrice) {
-        this.retailPrice = retailPrice;
-    }
-
     public String getCoverUrl() {
         return coverUrl;
     }
 
     public void setCoverUrl(String coverUrl) {
         this.coverUrl = coverUrl;
-    }
-
-    public String getProvider() {
-        return provider;
-    }
-
-    public void setProvider(String provider) {
-        this.provider = provider;
     }
 
     public UserEntity getUser() {
@@ -203,74 +154,58 @@ public class BookEntity {
         this.createdAt = createdAt;
     }
 
+    public BookStatus getStatus() { return status; }
+
+    public void setStatus(BookStatus status) { this.status = status; }
+
     public BookEntity(
             String isbn,
             String title,
-            String subtitle,
             List<String> authors,
             String publisher,
             String synopsis,
             Integer year,
-            String format,
             Integer pageCount,
             List<String> subjects,
-            String location,
-            Double retailPrice,
             String coverUrl,
-            String provider,
-            UserEntity user
+            UUID userId
                 ) {
        this.isbn = isbn;
        this.title = title;
-       this.subtitle = subtitle;
        this.authors = authors;
        this.publisher = publisher;
        this.synopsis = synopsis;
        this.year = year;
-       this.format = format;
        this.pageCount = pageCount;
        this.subjects = subjects;
-       this.location = location;
-       this.retailPrice = retailPrice;
        this.coverUrl = coverUrl;
-       this.provider = provider;
-       this.user = user;
+       this.userId = userId;
     }
 
     public BookEntity(
             UUID id,
             String isbn,
             String title,
-            String subtitle,
             List<String> authors,
             String publisher,
             String synopsis,
             Integer year,
-            String format,
             Integer pageCount,
             List<String> subjects,
-            String location,
-            Double retailPrice,
             String coverUrl,
-            String provider,
             UserEntity user,
             LocalDateTime createdAt
     ) {
         this.id = id;
         this.isbn = isbn;
         this.title = title;
-        this.subtitle = subtitle;
         this.authors = authors;
         this.publisher = publisher;
         this.synopsis = synopsis;
         this.year = year;
-        this.format = format;
         this.pageCount = pageCount;
         this.subjects = subjects;
-        this.location = location;
-        this.retailPrice = retailPrice;
         this.coverUrl = coverUrl;
-        this.provider = provider;
         this.user = user;
         this.createdAt = createdAt;
     }
@@ -282,7 +217,6 @@ public class BookEntity {
         return "BookEntity{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
-                ", subtitle='" + subtitle + '\'' +
                 ", isbn='" + isbn + '\'' +
                 ", year='" + year + '\'' +
                 ", publisher='" + publisher + '\'' +
@@ -290,13 +224,9 @@ public class BookEntity {
                 ", pageCount=" + pageCount +
                 ", authors=" + authors +
                 ", publisher='" + publisher + '\'' +
-                ", synopsis='" + (synopsis != null && synopsis.length() > 50 ? synopsis.substring(0, 50) + "..." : synopsis) + '\'' + // Sinopse truncada
-                ", format='" + format + '\'' +
+                ", synopsis='" + (synopsis != null && synopsis.length() > 50 ? synopsis.substring(0, 50) + "..." : synopsis) + '\'' +
                 ", subjects=" + subjects +
-                ", location='" + location + '\'' +
-                ", retailPrice=" + retailPrice +
                 ", coverUrl='" + coverUrl + '\'' +
-                ", provider='" + provider + '\'' +
                 ", createdAt=" + createdAt +
                 '}';
     }

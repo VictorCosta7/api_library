@@ -2,9 +2,9 @@ package br.com.victorcosta.libraryapi.modules.rental.useCases;
 
 import br.com.victorcosta.libraryapi.exeptions.BookNotFoundException;
 import br.com.victorcosta.libraryapi.exeptions.UserNotFoundException;
+import br.com.victorcosta.libraryapi.modules.book.domain.BookStatus;
 import br.com.victorcosta.libraryapi.modules.book.repositories.BookRepository;
-import br.com.victorcosta.libraryapi.modules.rental.domain.RentalEntity;
-import br.com.victorcosta.libraryapi.modules.rental.domain.RentalStatus;
+import br.com.victorcosta.libraryapi.modules.rental.RentalEntity;
 import br.com.victorcosta.libraryapi.modules.rental.repository.RentalRepository;
 import br.com.victorcosta.libraryapi.modules.user.repositories.UserRepository;
 import org.springframework.stereotype.Service;
@@ -42,9 +42,13 @@ public class RegisterRentalUseCase {
         var dueDate = rentalDateNow.plusDays(30);
 
         var rental = new RentalEntity(
-            book.getId(), user.getId(), rentalDateNow, dueDate, RentalStatus.RENTED
+                user.getId(), book.getId(), rentalDateNow, dueDate
         );
 
-       return rentalRepository.save(rental);
+        book.setStatus(BookStatus.RENTED);
+
+        bookRepository.save(book);
+
+        return rentalRepository.save(rental);
     }
 }

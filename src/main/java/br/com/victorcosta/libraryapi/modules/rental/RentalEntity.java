@@ -1,6 +1,6 @@
-package br.com.victorcosta.libraryapi.modules.rental.domain;
+package br.com.victorcosta.libraryapi.modules.rental;
 
-import br.com.victorcosta.libraryapi.modules.book.BookEntity;
+import br.com.victorcosta.libraryapi.modules.book.domain.BookEntity;
 import br.com.victorcosta.libraryapi.modules.user.UserEntity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
@@ -35,9 +35,6 @@ public class RentalEntity {
 
     @Column(name = "due_date")
     private LocalDateTime dueDate;
-
-    @Enumerated(EnumType.STRING)
-    private RentalStatus status;
 
     public UUID getId() {
         return id;
@@ -95,20 +92,11 @@ public class RentalEntity {
         this.dueDate = dueDate;
     }
 
-    public RentalStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(RentalStatus status) {
-        this.status = status;
-    }
-
-    public RentalEntity(UUID userId, UUID bookId, LocalDateTime rentalDate, LocalDateTime dueDate, RentalStatus status) {
+    public RentalEntity(UUID userId, UUID bookId, LocalDateTime rentalDate, LocalDateTime dueDate) {
         this.userId = userId;
         this.bookId = bookId;
         this.rentalDate = rentalDate;
         this.dueDate = dueDate;
-        this.status = status;
     }
 
     @Override
@@ -118,7 +106,6 @@ public class RentalEntity {
                 ", userId=" + user.getId() +
                 ", bookId=" + book.getId() +
                 ", rentalDate=" + rentalDate +
-                ", dueDate=" + dueDate +
-                ", status=" + status  + '}';
+                ", dueDate=" + dueDate + '}';
     }
 }

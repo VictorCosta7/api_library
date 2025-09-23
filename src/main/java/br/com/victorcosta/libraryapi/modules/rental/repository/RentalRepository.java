@@ -1,6 +1,6 @@
 package br.com.victorcosta.libraryapi.modules.rental.repository;
 
-import br.com.victorcosta.libraryapi.modules.rental.domain.RentalEntity;
+import br.com.victorcosta.libraryapi.modules.rental.RentalEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;
