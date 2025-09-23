@@ -1,0 +1,194 @@
+type: collection.insomnia.rest/5.0
+name: library_api
+meta:
+  id: wrk_57dd217ef66f4a1bb29126f5dcf3a390
+  created: 1747143088462
+  modified: 1758122820617
+  description: ""
+collection:
+  - name: user
+    meta:
+      id: fld_cd875099c09d42cfa9b0f140104a9618
+      created: 1758123634367
+      modified: 1758123634367
+      sortKey: -1758123634367
+      description: ""
+    children:
+      - url: http://localhost:8080/users
+        name: create
+        meta:
+          id: req_dfbf5922187a40e8abf5635af0acd428
+          created: 1758123636338
+          modified: 1758537161195
+          isPrivate: false
+          description: ""
+          sortKey: -1758123636339
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"fullName": "Victor Costa",
+            	"username": "victor",
+            	"email": "vrrcosta2@gmail.com",
+            	"password": "srtongpass"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.6.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/users/auth
+        name: auth
+        meta:
+          id: req_71cc78c4132b45359374adc113a568ec
+          created: 1758124508608
+          modified: 1758193478689
+          isPrivate: false
+          description: ""
+          sortKey: -1758124508608
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"email": "vrrcosta2@gmail.com",
+            	"password": "srtongpass"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.6.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: book
+    meta:
+      id: fld_82d62faa7e844b6db335b727c176dd3d
+      created: 1758123654776
+      modified: 1758123654776
+      sortKey: -1758123654776
+      description: ""
+    children:
+      - url: http://localhost:8080/books
+        name: register
+        meta:
+          id: req_6b0d98ed0f2f497285426f0896d42a0c
+          created: 1758123659062
+          modified: 1758538282167
+          isPrivate: false
+          description: ""
+          sortKey: -1758123659062
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"isbn": "9788571232812"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.6.0
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJsaWJyYXJ5dmMiLCJleHAiOjE3NTg1NDQzNjUsInN1YiI6IjUzYzgxYTA3LTg5YTUtNGM3Yy1hZTU4LWI3ZjQ4MTRkMTI0MSIsInJvbGVzIjpbIlVTRVIiXX0.D1foUsXLesJcm-7X1em5nTmFZ_JkT1NPVVQCXno8cD0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: https://brasilapi.com.br/api/isbn/v1/9788574140247
+        name: brasilapi
+        meta:
+          id: req_38d496b753ee44a0bbb5844dff66b02a
+          created: 1758195232431
+          modified: 1758197153691
+          isPrivate: false
+          description: ""
+          sortKey: -1758195232431
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.6.1
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: rental
+    meta:
+      id: fld_7c81dcd75a574a78be8d2ef02799e3ec
+      created: 1758198724052
+      modified: 1758198724052
+      sortKey: -1758198724052
+      description: ""
+    children:
+      - url: http://localhost:8080/rental/fa4f5372-5e94-4d39-8b81-7ad4f01befeb
+        name: register
+        meta:
+          id: req_dc27364cd20b4b1c9880536e8dd0769b
+          created: 1758198726779
+          modified: 1758534913875
+          isPrivate: false
+          description: ""
+          sortKey: -1758198726779
+        method: POST
+        headers:
+          - name: User-Agent
+            value: insomnia/11.6.1
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJsaWJyYXJ5dmMiLCJleHAiOjE3NTg1NDIwOTMsInN1YiI6ImVkYTQ3NjU3LWZmNGItNDk3ZS1hN2UwLThiY2FiNWVlOTJmYiIsInJvbGVzIjpbIlVTRVIiXX0.tfXU7jer7Ey1q9sKYVSWO6qLJGUOiUfKhH9ack7nqNU
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_f335504367561b78857dbfa332986931c8185649
+    created: 1758122820647
+    modified: 1758541397370
+  cookies:
+    - key: JSESSIONID
+      value: FCBBC5D5E3C771567989A7C693D0F11B
+      domain: localhost
+      path: /
+      httpOnly: true
+      hostOnly: true
+      creation: 2025-09-17T15:54:49.367Z
+      lastAccessed: 2025-09-22T11:43:17.370Z
+      id: 67e77327-816a-4859-9e56-fad37f05254d
+environments:
+  name: Base Environment
+  meta:
+    id: env_f335504367561b78857dbfa332986931c8185649
+    created: 1747143088466
+    modified: 1758122820616
+    isPrivate: false
