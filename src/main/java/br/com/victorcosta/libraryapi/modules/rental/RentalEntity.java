@@ -99,6 +99,8 @@ public class RentalEntity {
         this.dueDate = dueDate;
     }
 
+    public  RentalEntity() {}
+
     @Override
     public String toString() {
         return "BookEntity{" +

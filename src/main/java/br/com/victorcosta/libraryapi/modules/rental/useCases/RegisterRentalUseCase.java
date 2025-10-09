@@ -1,11 +1,14 @@
 package br.com.victorcosta.libraryapi.modules.rental.useCases;
 
+import br.com.victorcosta.libraryapi.exeptions.BookNotAvailableException;
 import br.com.victorcosta.libraryapi.exeptions.BookNotFoundException;
 import br.com.victorcosta.libraryapi.exeptions.UserNotFoundException;
+import br.com.victorcosta.libraryapi.modules.book.domain.BookEntity;
 import br.com.victorcosta.libraryapi.modules.book.domain.BookStatus;
 import br.com.victorcosta.libraryapi.modules.book.repositories.BookRepository;
 import br.com.victorcosta.libraryapi.modules.rental.RentalEntity;
 import br.com.victorcosta.libraryapi.modules.rental.repository.RentalRepository;
+import br.com.victorcosta.libraryapi.modules.user.UserEntity;
 import br.com.victorcosta.libraryapi.modules.user.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -28,24 +31,29 @@ public class RegisterRentalUseCase {
     }
 
     public RentalEntity execute(UUID userId, UUID bookId) {
-        var user = userRepository.findById(userId)
-                .orElseThrow(() -> {
-                    throw new UserNotFoundException();
-                });
+        UserEntity user = userRepository.findById(userId)
+                .orElseThrow(UserNotFoundException::new);
 
-        var book = bookRepository.findById(bookId).orElseThrow(()-> {
-            throw new BookNotFoundException();
-        });
+        BookEntity book = bookRepository.findById(bookId).orElseThrow(BookNotFoundException::new);
 
-        var rentalDateNow = LocalDateTime.now();
+        if (book.getQuantity() == 0) {
+            throw new BookNotAvailableException();
+        }
 
-        var dueDate = rentalDateNow.plusDays(30);
+        book.setQuantity(book.getQuantity() - 1);
 
-        var rental = new RentalEntity(
+        if (book.getQuantity() == 0) {
+            book.setStatus(BookStatus.RENTED);
+        } else {
+            book.setStatus(BookStatus.AVAILABLE);
+        }
+
+        LocalDateTime rentalDateNow = LocalDateTime.now();
+        LocalDateTime dueDate = rentalDateNow.plusDays(30);
+
+        RentalEntity rental = new RentalEntity(
                 user.getId(), book.getId(), rentalDateNow, dueDate
         );
-
-        book.setStatus(BookStatus.RENTED);
 
         bookRepository.save(book);
 

@@ -2,6 +2,7 @@ package br.com.victorcosta.libraryapi.modules.user.useCases;
 
 import javax.naming.AuthenticationException;
 
+import br.com.victorcosta.libraryapi.modules.user.UserEntity;
 import br.com.victorcosta.libraryapi.modules.user.dto.AuthUserResponseDTO;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -16,6 +17,7 @@ import br.com.victorcosta.libraryapi.modules.user.repositories.UserRepository;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Arrays;
+import java.util.List;
 
 @Service
 public class AuthUserUseCase {
@@ -32,21 +34,21 @@ public class AuthUserUseCase {
     }
 
     public AuthUserResponseDTO execute(AuthUserDto authUserDto) throws AuthenticationException {
-        var user = userRepository.findByEmail(authUserDto.email()).orElseThrow(() -> {
+        UserEntity user = userRepository.findByEmail(authUserDto.email()).orElseThrow(() -> {
             throw new UserNotFoundException();
         });
 
-        var passwordMatches = this.passwordEncoder.matches(authUserDto.password(), user.getPassword());
+        boolean passwordMatches = this.passwordEncoder.matches(authUserDto.password(), user.getPassword());
 
         if(!passwordMatches) {
             throw new AuthenticationException();
        }
 
         Algorithm algorithm = Algorithm.HMAC256(secretKey);
-        var expiresIn = Instant.now().plus(Duration.ofMinutes(10));
-        var roles = Arrays.asList("USER");
+        Instant expiresIn = Instant.now().plus(Duration.ofMinutes(10));
+        List<String> roles = Arrays.asList("USER");
 
-        var token = JWT.create().withIssuer("libraryvc")
+        String token = JWT.create().withIssuer("libraryvc")
                 .withExpiresAt(Instant.now().plus(Duration.ofHours(2)))
                 .withSubject(user.getId().toString())
                 .withClaim("roles", roles)

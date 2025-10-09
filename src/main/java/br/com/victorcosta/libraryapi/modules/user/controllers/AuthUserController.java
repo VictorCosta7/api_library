@@ -1,6 +1,7 @@
 package br.com.victorcosta.libraryapi.modules.user.controllers;
 
 import br.com.victorcosta.libraryapi.modules.user.dto.AuthUserDto;
+import br.com.victorcosta.libraryapi.modules.user.dto.AuthUserResponseDTO;
 import br.com.victorcosta.libraryapi.modules.user.useCases.AuthUserUseCase;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -24,7 +25,7 @@ public class AuthUserController {
 
     @PostMapping("/auth")
     public ResponseEntity<Object> handler(@Valid @RequestBody AuthUserDto authUserDto) throws AuthenticationException {
-       var result = this.authUserUseCase.execute(authUserDto);
+        AuthUserResponseDTO result = this.authUserUseCase.execute(authUserDto);
 
        return  ResponseEntity.status(HttpStatus.OK).body(result);
     }

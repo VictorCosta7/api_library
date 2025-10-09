@@ -2,6 +2,7 @@ package br.com.victorcosta.libraryapi.modules.book.controllers;
 
 import java.util.UUID;
 
+import br.com.victorcosta.libraryapi.modules.book.domain.BookEntity;
 import br.com.victorcosta.libraryapi.modules.book.dto.CreateBookRequestDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,9 +25,9 @@ public class CreateBookController {
 
     @PostMapping
     public ResponseEntity<Object> handler(@RequestBody CreateBookRequestDTO createBookRequestDTO, HttpServletRequest request) {
-        var userId = request.getAttribute("user_id");
+        Object userId = request.getAttribute("user_id");
 
-        var book = createBookUseCase.execute(createBookRequestDTO.isbn(),UUID.fromString(userId.toString()));
+        BookEntity book = createBookUseCase.execute(createBookRequestDTO.isbn(),createBookRequestDTO.quantity(),UUID.fromString(userId.toString()));
 
         return  ResponseEntity.ok().body(book);
     }

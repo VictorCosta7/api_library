@@ -1,5 +1,6 @@
 package br.com.victorcosta.libraryapi.modules.rental.controllers;
 
+import br.com.victorcosta.libraryapi.modules.rental.RentalEntity;
 import br.com.victorcosta.libraryapi.modules.rental.useCases.RegisterRentalUseCase;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
@@ -18,9 +19,9 @@ public class RegisterRentalController {
 
     @PostMapping("/{bookId}")
     public ResponseEntity<Object> handler(@PathVariable UUID bookId , HttpServletRequest request) {
-        var userId = request.getAttribute("user_id");
+        Object userId = request.getAttribute("user_id");
 
-        var rental = registerRentalUseCase.execute(UUID.fromString(userId.toString()), bookId);
+        RentalEntity rental = registerRentalUseCase.execute(UUID.fromString(userId.toString()), bookId);
 
         return ResponseEntity.ok().body(rental);
     }

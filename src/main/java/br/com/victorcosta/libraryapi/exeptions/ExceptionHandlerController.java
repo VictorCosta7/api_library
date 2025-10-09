@@ -57,4 +57,13 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
 
         return new ResponseEntity<>(dto, HttpStatus.CONFLICT);
     }
+
+    @ExceptionHandler(BookNotAvailableException.class)
+    public ResponseEntity<ErrorMessageDTO> handleBookNotAvailableException(BookNotAvailableException e) {
+        ErrorMessageDTO dto = new ErrorMessageDTO(
+                e.getMessage(), e.getClass().getSimpleName()
+        );
+
+        return new ResponseEntity<>(dto, HttpStatus.CONFLICT);
+    }
 }

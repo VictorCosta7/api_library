@@ -4,6 +4,7 @@ import br.com.victorcosta.libraryapi.exeptions.BookFoundException;
 import br.com.victorcosta.libraryapi.exeptions.InvalidIsbnException;
 import br.com.victorcosta.libraryapi.exeptions.UserNotFoundException;
 import br.com.victorcosta.libraryapi.modules.book.domain.BookEntity;
+import br.com.victorcosta.libraryapi.modules.user.UserEntity;
 import br.com.victorcosta.libraryapi.modules.user.repositories.UserRepository;
 import br.com.victorcosta.libraryapi.providers.RestTemplateProvider;
 import br.com.victorcosta.libraryapi.providers.dto.IndustryIdentifier;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.victorcosta.libraryapi.modules.book.repositories.BookRepository;
 
+import java.util.Optional;
 import java.util.UUID;
 import java.util.List;
 
@@ -31,8 +33,8 @@ public class CreateBookUseCase {
         this.userRepository = userRepository;
     }
 
-    public BookEntity execute(String isbn, UUID userId) {
-        var apiResponseOptional = restTemplateProvider.getBookByISBN(isbn);
+    public BookEntity execute(String isbn, Integer quantity, UUID userId) {
+        Optional<VolumeInfo> apiResponseOptional = restTemplateProvider.getBookByISBN(isbn);
 
         if (apiResponseOptional.isEmpty()) {
             logger.error("API response is empty for ISBN: {}", isbn);
@@ -47,21 +49,19 @@ public class CreateBookUseCase {
             throw new BookFoundException();
         };
 
-        var user = userRepository.findById(userId).orElseThrow(() -> {
+        UserEntity user = userRepository.findById(userId).orElseThrow(() -> {
             return new UserNotFoundException();
         });
 
-        // Extrai o ISBN da lista de identificadores.
         String bookIsbn = extractIsbnFromVolumeInfo(apiResponse.industryIdentifiers());
 
-        // Extrai o ano da data de publicação.
         Integer year = null;
 
         if (apiResponse.publishedDate() != null && apiResponse.publishedDate().length() >= 4) {
             year = Integer.parseInt(apiResponse.publishedDate().substring(0, 4));
         }
 
-        var book = new BookEntity(
+        BookEntity book = new BookEntity(
                 bookIsbn,
                 apiResponse.title(),
                 apiResponse.authors(),
@@ -71,7 +71,8 @@ public class CreateBookUseCase {
                 apiResponse.pageCount(),
                 apiResponse.categories(),
                 apiResponse.imageLinks().thumbnail(),
-                user.getId()
+                user.getId(),
+                quantity
         );
 
         return bookRepository.save(book);

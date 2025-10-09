@@ -25,7 +25,7 @@ public class CreateUserUseCase {
             throw new UserFoundException();
         });;
 
-        var passwordEncode = this.passwordEncoder.encode(createUserDto.password());
+        String passwordEncode = this.passwordEncoder.encode(createUserDto.password());
 
         UserEntity user = new UserEntity(
                 createUserDto.fullName(),

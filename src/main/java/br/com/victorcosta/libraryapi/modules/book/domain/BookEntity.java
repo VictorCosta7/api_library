@@ -23,7 +23,7 @@ public class BookEntity {
 
     private String publisher;
 
-    @Lob
+    @Column(columnDefinition = "TEXT", length = 2000)
     private String synopsis;
 
     private Integer year;
@@ -49,6 +49,8 @@ public class BookEntity {
 
     @Enumerated(EnumType.STRING)
     private BookStatus status = BookStatus.AVAILABLE;
+
+    private Integer quantity;
 
     public UUID getId() {
         return id;
@@ -158,6 +160,10 @@ public class BookEntity {
 
     public void setStatus(BookStatus status) { this.status = status; }
 
+    public Integer getQuantity() { return quantity; }
+
+    public void setQuantity(Integer quantity) { this.quantity = quantity; }
+
     public BookEntity(
             String isbn,
             String title,
@@ -168,7 +174,8 @@ public class BookEntity {
             Integer pageCount,
             List<String> subjects,
             String coverUrl,
-            UUID userId
+            UUID userId,
+            Integer quantity
                 ) {
        this.isbn = isbn;
        this.title = title;
@@ -180,6 +187,7 @@ public class BookEntity {
        this.subjects = subjects;
        this.coverUrl = coverUrl;
        this.userId = userId;
+       this.quantity = quantity;
     }
 
     public BookEntity(
@@ -194,7 +202,8 @@ public class BookEntity {
             List<String> subjects,
             String coverUrl,
             UserEntity user,
-            LocalDateTime createdAt
+            LocalDateTime createdAt,
+            Integer quantity
     ) {
         this.id = id;
         this.isbn = isbn;
@@ -208,26 +217,30 @@ public class BookEntity {
         this.coverUrl = coverUrl;
         this.user = user;
         this.createdAt = createdAt;
+        this.quantity = quantity;
     }
 
-    public BookEntity() {}
+    public BookEntity() {
+    }
 
     @Override
     public String toString() {
         return "BookEntity{" +
                 "id=" + id +
-                ", title='" + title + '\'' +
                 ", isbn='" + isbn + '\'' +
-                ", year='" + year + '\'' +
-                ", publisher='" + publisher + '\'' +
-                ", subjects=" + subjects +
-                ", pageCount=" + pageCount +
+                ", title='" + title + '\'' +
                 ", authors=" + authors +
                 ", publisher='" + publisher + '\'' +
-                ", synopsis='" + (synopsis != null && synopsis.length() > 50 ? synopsis.substring(0, 50) + "..." : synopsis) + '\'' +
+                ", synopsis='" + synopsis + '\'' +
+                ", year=" + year +
+                ", pageCount=" + pageCount +
                 ", subjects=" + subjects +
                 ", coverUrl='" + coverUrl + '\'' +
+                ", userId=" + userId +
+                ", user=" + user +
                 ", createdAt=" + createdAt +
+                ", status=" + status +
+                ", quantity=" + quantity +
                 '}';
     }
 }
