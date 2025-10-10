@@ -1,5 +1,6 @@
 package br.com.victorcosta.libraryapi.modules.book.repositories;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -14,15 +15,21 @@ import org.springframework.data.repository.query.Param;
 public interface BookRepository extends JpaRepository<BookEntity, UUID> {
     Optional<BookEntity>findByIsbn(String isbn);
 
-    @Query(value = "SELECT * FROM books b WHERE " +
-            "(:title IS NULL OR LOWER(b.title) LIKE LOWER(CONCAT('%', :title, '%'))) OR " +
-            "(:author IS NULL OR LOWER(CAST(b.authors AS VARCHAR)) LIKE LOWER(CONCAT('%\"', :author, '\"%'))) OR " +
-            "(:category IS NULL OR LOWER(CAST(b.subjects AS VARCHAR)) LIKE LOWER(CONCAT('%\"', :category, '\"%')))",
-            nativeQuery = true)
+    // TODO
+    @Query(value = """
+    SELECT *
+    FROM books b
+    WHERE
+        (:title IS NULL OR :title = '' OR unaccent(b.title) ILIKE unaccent(CONCAT('%', :title, '%')))
+        AND
+        (:author IS NULL OR :author = '' OR unaccent(CAST(b.authors AS TEXT)) ILIKE unaccent(CONCAT('%', :author, '%')))
+        AND
+        (:category IS NULL OR :category = '' OR unaccent(CAST(b.subjects AS TEXT)) ILIKE unaccent(CONCAT('%', :category, '%')))
+""", nativeQuery = true)
     Page<BookEntity> findByOptionalFilters(
             @Param("title") String title,
             @Param("author") String author,
             @Param("category") String category,
             Pageable pageable
     );
-    };
+};

@@ -4,6 +4,8 @@ import java.util.UUID;
 
 import br.com.victorcosta.libraryapi.modules.book.domain.BookEntity;
 import br.com.victorcosta.libraryapi.modules.book.dto.CreateBookRequestDTO;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,6 +26,11 @@ public class CreateBookController {
     }
 
     @PostMapping
+    @Tag(name = "Books", description = "Operations related to managing the book inventory.")
+    @Operation(
+            summary = "Add a new book to the inventory",
+            description = "Registers a new book, along with its initial quantity, into the library inventory. The book will be associated with the user performing the registration (librarian/admin)."
+    )
     public ResponseEntity<Object> handler(@RequestBody CreateBookRequestDTO createBookRequestDTO, HttpServletRequest request) {
         Object userId = request.getAttribute("user_id");
 
