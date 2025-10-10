@@ -4,7 +4,7 @@ import br.com.victorcosta.libraryapi.exeptions.BookFoundException;
 import br.com.victorcosta.libraryapi.exeptions.InvalidIsbnException;
 import br.com.victorcosta.libraryapi.exeptions.UserNotFoundException;
 import br.com.victorcosta.libraryapi.modules.book.domain.BookEntity;
-import br.com.victorcosta.libraryapi.modules.user.UserEntity;
+import br.com.victorcosta.libraryapi.modules.user.domain.UserEntity;
 import br.com.victorcosta.libraryapi.modules.user.repositories.UserRepository;
 import br.com.victorcosta.libraryapi.providers.RestTemplateProvider;
 import br.com.victorcosta.libraryapi.providers.dto.IndustryIdentifier;

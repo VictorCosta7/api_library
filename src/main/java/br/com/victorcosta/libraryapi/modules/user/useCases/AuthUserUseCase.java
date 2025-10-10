@@ -2,7 +2,7 @@ package br.com.victorcosta.libraryapi.modules.user.useCases;
 
 import javax.naming.AuthenticationException;
 
-import br.com.victorcosta.libraryapi.modules.user.UserEntity;
+import br.com.victorcosta.libraryapi.modules.user.domain.UserEntity;
 import br.com.victorcosta.libraryapi.modules.user.dto.AuthUserResponseDTO;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;

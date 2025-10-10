@@ -6,9 +6,9 @@ import br.com.victorcosta.libraryapi.exeptions.UserNotFoundException;
 import br.com.victorcosta.libraryapi.modules.book.domain.BookEntity;
 import br.com.victorcosta.libraryapi.modules.book.domain.BookStatus;
 import br.com.victorcosta.libraryapi.modules.book.repositories.BookRepository;
-import br.com.victorcosta.libraryapi.modules.rental.RentalEntity;
+import br.com.victorcosta.libraryapi.modules.rental.domain.RentalEntity;
 import br.com.victorcosta.libraryapi.modules.rental.repository.RentalRepository;
-import br.com.victorcosta.libraryapi.modules.user.UserEntity;
+import br.com.victorcosta.libraryapi.modules.user.domain.UserEntity;
 import br.com.victorcosta.libraryapi.modules.user.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 

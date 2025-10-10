@@ -1,18 +1,39 @@
 package br.com.victorcosta.libraryapi.exeptions;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MissingPathVariableException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @ControllerAdvice
-public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
+public class ExceptionHandlerController {
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ResponseEntity<Object> handleMethodArgumentNotValidException(MethodArgumentTypeMismatchException exception) {
         ErrorMessageDTO errorMessage = new ErrorMessageDTO(exception.getName(), exception.getErrorCode());
 
         return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    public ResponseEntity<ErrorMessageDTO> handleMissingParams(MissingServletRequestParameterException ex) {
+        String name = ex.getParameterName();
+        ErrorMessageDTO dto = new ErrorMessageDTO(
+                "The parameter '" + name + "' is required and was not provided.",
+                ex.getClass().getSimpleName()
+        );
+        return new ResponseEntity<>(dto, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(MissingPathVariableException.class)
+    public ResponseEntity<ErrorMessageDTO> handleMissingPath(MissingPathVariableException ex) {
+        String name = ex.getVariableName();
+        ErrorMessageDTO dto = new ErrorMessageDTO(
+                "The path variable '" + name + "' is required and was not provided.",
+                ex.getClass().getSimpleName()
+        );
+        return new ResponseEntity<>(dto, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(AppException.class)

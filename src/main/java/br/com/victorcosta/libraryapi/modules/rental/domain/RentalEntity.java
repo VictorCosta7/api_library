@@ -1,7 +1,7 @@
-package br.com.victorcosta.libraryapi.modules.rental;
+package br.com.victorcosta.libraryapi.modules.rental.domain;
 
 import br.com.victorcosta.libraryapi.modules.book.domain.BookEntity;
-import br.com.victorcosta.libraryapi.modules.user.UserEntity;
+import br.com.victorcosta.libraryapi.modules.user.domain.UserEntity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 

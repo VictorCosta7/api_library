@@ -5,7 +5,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.com.victorcosta.libraryapi.exeptions.UserFoundException;
-import br.com.victorcosta.libraryapi.modules.user.UserEntity;
+import br.com.victorcosta.libraryapi.modules.user.domain.UserEntity;
 import br.com.victorcosta.libraryapi.modules.user.repositories.UserRepository;
 
 @Service

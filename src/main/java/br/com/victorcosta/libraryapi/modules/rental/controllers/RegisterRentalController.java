@@ -1,6 +1,6 @@
 package br.com.victorcosta.libraryapi.modules.rental.controllers;
 
-import br.com.victorcosta.libraryapi.modules.rental.RentalEntity;
+import br.com.victorcosta.libraryapi.modules.rental.domain.RentalEntity;
 import br.com.victorcosta.libraryapi.modules.rental.useCases.RegisterRentalUseCase;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;

@@ -19,6 +19,14 @@ public class SecurityConfig {
         this.securityInterceptor = securityInterceptor;
     }
 
+    private static final String[] PERMIT_ALL_LIST = {
+                "/users",
+                "/users/auth",
+                "/swagger-ui/**",
+                "/v3/api-docs/**",
+                "/swagger-resources/**"
+    };
+
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -26,8 +34,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> {
                     auth
                             .requestMatchers(
-                                    "/users",
-                                    "/users/auth"
+                                    PERMIT_ALL_LIST
                             ).permitAll()
                             .anyRequest().authenticated();
                 })

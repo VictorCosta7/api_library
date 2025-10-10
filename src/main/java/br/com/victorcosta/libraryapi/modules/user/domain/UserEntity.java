@@ -1,4 +1,4 @@
-package br.com.victorcosta.libraryapi.modules.user;
+package br.com.victorcosta.libraryapi.modules.user.domain;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -6,8 +6,6 @@ import java.util.UUID;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.validator.constraints.Length;
-
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.validation.constraints.Email;
 import io.micrometer.common.lang.Nullable;
