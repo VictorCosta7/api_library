@@ -31,10 +31,12 @@ public class UserEntity {
 
     private LocalDateTime deletedAt;
 
+    private String phone;
+
     public UserEntity() {
     }
 
-    public UserEntity(UUID id, String fullName, String username, String email, String password, LocalDateTime createdAt, LocalDateTime deletedAt) {
+    public UserEntity(UUID id, String fullName, String username, String email, String password, LocalDateTime createdAt, LocalDateTime deletedAt, String phone) {
         this.id = id;
         this.fullName = fullName;
         this.username = username;
@@ -42,13 +44,15 @@ public class UserEntity {
         this.password = password;
         this.createdAt = createdAt;
         this.deletedAt = deletedAt;
+        this.phone = phone;
     }
 
-    public UserEntity(String fullName, String username, String email, String password) {
+    public UserEntity(String fullName, String username, String email, String password, String phone) {
         this.fullName = fullName;
         this.username = username;
         this.email = email;
         this.password = password;
+        this.phone = phone;
     }
 
     @Override
@@ -104,6 +108,10 @@ public class UserEntity {
         this.password = password;
     }
 
+    public String getPhone() { return phone; }
+
+    public void setPhone(String phone) { this.phone = phone; }
+
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
@@ -123,6 +131,6 @@ public class UserEntity {
 
     @Override
     public String toString() {
-        return "UserEntity{" + "id=" + id + ", fullName='" + fullName + '\'' + ", username='" + username + '\'' + ", email='" + email + '\'' + ", password='" + "[PROTECTED]" + '\'' + ", createdAt=" + createdAt + ", deletedAt=" + deletedAt + '}';
+        return "UserEntity{" + "id=" + id + ", fullName='" + fullName + '\'' + ", username='" + username + '\'' + ", email='" + email + '\'' + ", password='" + "[PROTECTED]" + '\'' + ", createdAt=" + createdAt + ", deletedAt=" + deletedAt + ", phone=" + phone +'}';
     }
 }

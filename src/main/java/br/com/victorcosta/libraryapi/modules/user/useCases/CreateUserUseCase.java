@@ -23,7 +23,7 @@ public class CreateUserUseCase {
     public UserEntity execute(CreateUserDto createUserDto) {
         this.userRepository.findByEmail(createUserDto.email()).ifPresent((user) -> {
             throw new UserFoundException();
-        });;
+        });
 
         String passwordEncode = this.passwordEncoder.encode(createUserDto.password());
 
@@ -31,9 +31,8 @@ public class CreateUserUseCase {
                 createUserDto.fullName(),
                 createUserDto.username(),
                 createUserDto.email(),
-                passwordEncode
-        );
-
+                passwordEncode,
+                createUserDto.phone() );
         return this.userRepository.save(user);
     }
 }
