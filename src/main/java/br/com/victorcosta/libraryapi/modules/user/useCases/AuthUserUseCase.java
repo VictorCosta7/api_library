@@ -46,7 +46,7 @@ public class AuthUserUseCase {
 
         Algorithm algorithm = Algorithm.HMAC256(secretKey);
         Instant expiresIn = Instant.now().plus(Duration.ofMinutes(10));
-        List<String> roles = Arrays.asList("USER");
+        List<String> roles = List.of(user.getRole().name());
 
         String token = JWT.create().withIssuer("libraryvc")
                 .withExpiresAt(Instant.now().plus(Duration.ofHours(2)))

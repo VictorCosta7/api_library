@@ -33,6 +33,10 @@ public class UserEntity {
 
     private String phone;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "user_role", nullable = false)
+    private UserRole role = UserRole.USER;
+
     public UserEntity() {
     }
 
@@ -72,17 +76,15 @@ public class UserEntity {
         return id;
     }
 
-    public void setId(UUID id) {
-        this.id = id;
-    }
+    public void setId(UUID id) { this.id = id; }
 
-    public String getFullName() {
-        return fullName;
-    }
+    public String getFullName() { return fullName; }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
+    public void setFullName(String fullName) { this.fullName = fullName; }
+
+    public UserRole getRole() { return role; }
+
+    public void setRole(UserRole role) { this.role = role; }
 
     public String getUsername() {
         return username;

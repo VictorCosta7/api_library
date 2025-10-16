@@ -9,4 +9,5 @@ import br.com.victorcosta.libraryapi.modules.user.domain.UserEntity;
 
 public interface UserRepository extends JpaRepository<UserEntity, UUID>{
     Optional<UserEntity>findByEmail(String email);
+    Optional<UserEntity> findByUsername(String username);
 }

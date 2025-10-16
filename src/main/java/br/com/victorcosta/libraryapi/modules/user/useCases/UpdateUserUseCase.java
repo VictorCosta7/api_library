@@ -17,7 +17,7 @@ public class UpdateUserUseCase {
         this.userRepository = userRepository;
     }
 
-    public UserEntity execute(UUID userId, UpdateUserDto updateUserDto) {
+    public void execute(UUID userId, UpdateUserDto updateUserDto) {
 
         UserEntity user = this.userRepository.findById(userId).orElseThrow(() -> {
             return new UserNotFoundException();
@@ -38,6 +38,11 @@ public class UpdateUserUseCase {
             user.setEmail(newEmail);
         }
 
-        return this.userRepository.save(user);
+        String newPhone = updateUserDto.phone();
+        if (newPhone != null && !newPhone.isBlank()) {
+            user.setPhone(newPhone);
+        }
+
+        this.userRepository.save(user);
     }
 }
